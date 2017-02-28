@@ -6,7 +6,7 @@ SOBJ=libannoy.jnilib
 all: annoy
 
 annoy: com_spotify_annoy_AnnoyIndexImpl.cpp
-	javah -jni com.spotify.annoy.AnnoyIndexImpl 
+	javah -cp ../../java -jni com.spotify.annoy.AnnoyIndexImpl
 	$(CC) $(CFLAGS) -o $(SOBJ)
 
 
