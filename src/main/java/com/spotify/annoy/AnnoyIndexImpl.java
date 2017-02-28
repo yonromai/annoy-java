@@ -8,6 +8,10 @@ public class AnnoyIndexImpl implements AnnoyIndex {
   private native void cppAddItem(int i, float[] vector);
 
 
+  public AnnoyIndexImpl() {
+  }
+
+
   public AnnoyIndex addItem(int i, float[] vector) {
     cppAddItem(i, vector);
     return null;
