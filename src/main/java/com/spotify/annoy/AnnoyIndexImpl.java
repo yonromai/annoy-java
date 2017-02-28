@@ -1,9 +1,10 @@
 package com.spotify.annoy;
 
 public class AnnoyIndexImpl implements AnnoyIndex {
-   static {
-      System.loadLibrary("annoy"); // Load native library at runtime
-   }
+
+  static {
+    System.loadLibrary("annoy"); // Load native library at runtime
+  }
 
   private native void cppAddItem(int i, float[] vector);
 
