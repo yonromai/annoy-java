@@ -6,6 +6,6 @@ SOURCE=com_spotify_annoy_AnnoyIndexImpl.cpp
 all: annoy
 
 annoy: $(SOBJ)
-	javah -cp .. -jni com.spotify.annoy.AnnoyIndexImpl
+	javah -cp ../ -jni com.spotify.annoy.AnnoyIndexImpl
 	$(CC) $(CFLAGS) -o $(SOBJ) $(SOURCE)
 

@@ -25,10 +25,10 @@ class AnnoyIndexImpl implements AnnoyIndex {
     return cppGetNearestByVector(vector, n);
   }
 
-  private native int[] cppGetNearestByVector(float[] vector, int n, int searchK);
+  private native int[] cppGetNearestByVectorK(float[] vector, int n, int searchK);
 
   public int[] getNearestByVector(float[] vector, int n, int searchK) {
-    return cppGetNearestByVector(vector, n, searchK);
+    return cppGetNearestByVectorK(vector, n, searchK);
   }
 
   private native int[] cppGetNearestByItem(float[] vector, int n);
@@ -37,10 +37,10 @@ class AnnoyIndexImpl implements AnnoyIndex {
     return cppGetNearestByItem(vector, n);
   }
 
-  private native int[] cppGetNearestByItem(float[] vector, int n, int searchK);
+  private native int[] cppGetNearestByItemK(float[] vector, int n, int searchK);
 
   public int[] getNearestByItem(float[] vector, int n, int searchK) {
-    return cppGetNearestByItem(vector, n, searchK);
+    return cppGetNearestByItemK(vector, n, searchK);
   }
 
   private native void cppBuild(int nTrees);
