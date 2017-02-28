@@ -8,17 +8,27 @@ import java.io.InputStreamReader;
 
 public class Annoy {
 
-  private static void verifyInstall() {}
+  private static void verifyInstall() {
+    // TODO: verify g++ and make are installed
+  }
 
   public static void install() throws IOException, InterruptedException {
     Runtime rt = Runtime.getRuntime();
     File jniDir = new File(ClassLoader.getSystemResource("jni").getFile());
-    Process pr = rt.exec("make", null , jniDir);
+    Process pr = rt.exec("make", null, jniDir);
     int retCode = pr.waitFor();
     if (retCode != 0) {
       System.out.println("ret code: " + retCode);
+      printInputStream(pr.getInputStream());
       printInputStream(pr.getErrorStream());
+      throw new RuntimeException("making annoy failed.");
     }
+    System.setProperty("java.library.path", jniDir.getAbsolutePath());
+  }
+
+  public static AnnoyIndex newAnnoyIndex(int f) {
+    return new AnnoyIndexImpl()
+        .init(f);
   }
 
   // FIXME: add proper logging

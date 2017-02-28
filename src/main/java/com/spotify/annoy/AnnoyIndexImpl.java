@@ -2,14 +2,17 @@ package com.spotify.annoy;
 
 class AnnoyIndexImpl implements AnnoyIndex {
 
-  static {
-    System.loadLibrary("annoy"); // Load native library at runtime
-  }
-
   private native void cppCtor(int f);
 
-  public AnnoyIndexImpl(int f) {
+  public AnnoyIndexImpl() {
+
+  }
+
+  AnnoyIndex init(int f) {
+    System.out.println(">>> " +  System.getProperty("java.library.path"));
+    System.loadLibrary("annoy");
     cppCtor(f);
+    return this;
   }
 
   private native void cppAddItem(int i, float[] vector);
