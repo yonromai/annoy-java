@@ -1,12 +1,12 @@
 CC=g++
-CFLAGS=-I. -lc -shared -I. -I../resources/annoy/src -I/System/Library/Frameworks/JavaVM.framework/Headers
+CFLAGS=-I. -lc -shared -I. -I../annoy/src -I/System/Library/Frameworks/JavaVM.framework/Headers
 SOBJ=libannoy.jnilib
-
+SOURCE=com_spotify_annoy_AnnoyIndexImpl.cpp
 
 all: annoy
 
-annoy: com_spotify_annoy_AnnoyIndexImpl.cpp
+annoy: $(SOBJ) 
 	javah -cp ../../java -jni com.spotify.annoy.AnnoyIndexImpl
-	$(CC) $(CFLAGS) -o $(SOBJ)
+	$(CC) $(CFLAGS) -o $(SOBJ) $(SOURCE)
 
 
