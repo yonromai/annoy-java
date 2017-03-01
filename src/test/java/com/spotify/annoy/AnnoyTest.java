@@ -1,10 +1,12 @@
 package com.spotify.annoy;
 
-import static org.junit.Assert.*;
+import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.is;
+import static org.junit.Assert.assertThat;
 
 import java.util.Arrays;
 import java.util.List;
-import org.junit.Assert;
+import org.apache.commons.lang3.ArrayUtils;
 import org.junit.Test;
 
 public class AnnoyTest {
@@ -20,8 +22,11 @@ public class AnnoyTest {
         .addAllItems(Arrays.asList(v0, v1))
         .build(2);
 
-//    Assert.assertArrayEquals(v2, v2, 0.001f);
+    assertThat(annoyIndex.size(), is(2));
+    assertThat(toBoxed(annoyIndex.getItemVector(0)), equalTo(v0));
   }
 
-
+  private static List<Float> toBoxed(float[] v) {
+    return Arrays.asList(ArrayUtils.toObject(v));
+  }
 }

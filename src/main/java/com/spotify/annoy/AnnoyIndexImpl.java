@@ -2,6 +2,7 @@ package com.spotify.annoy;
 
 import java.util.Collection;
 import java.util.List;
+import org.apache.commons.lang3.ArrayUtils;
 
 class AnnoyIndexImpl implements AnnoyIndex {
 
@@ -28,12 +29,8 @@ class AnnoyIndexImpl implements AnnoyIndex {
   public AnnoyIndex addAllItems(Collection<List<Float>> vectors) {
     int i = size();
     for (List<Float> vector: vectors){
-      float[] nativeVec = new float[vector.size()];
-      int j = 0;
-      for (Float f : vector) {
-        nativeVec[j++] = (f != null ? f : Float.NaN);
-      }
-      addItem(i++, nativeVec);
+      float[] primitiveVector = ArrayUtils.toPrimitive(vector.toArray(new Float[0]));
+      addItem(i++, primitiveVector);
     }
     return this;
   }
