@@ -5,12 +5,15 @@ class AnnoyIndexImpl implements AnnoyIndex {
   private native void cppCtor(int f);
 
   public AnnoyIndexImpl() {
-
   }
 
   AnnoyIndex init(int f) {
     System.out.println(">>> " +  System.getProperty("java.library.path"));
-    System.loadLibrary("annoy");
+    final String dir = System.getProperty("java.library.path");
+    //set explicit path for our custom library
+    System.load(dir + "/libannoy.jnilib"); //TODO: linux name is different.
+    System.out.println("annoy loaded!");
+
     cppCtor(f);
     return this;
   }
@@ -83,5 +86,14 @@ class AnnoyIndexImpl implements AnnoyIndex {
 
   public int size() {
     return cppSize();
+  }
+
+
+  // Test Driver
+  public static void main(String[] args) {
+    AnnoyIndexImpl annoyIndex = new AnnoyIndexImpl();
+    System.out.println("calling init");
+    annoyIndex.init(100);
+    System.out.println("init called!");
   }
 }
