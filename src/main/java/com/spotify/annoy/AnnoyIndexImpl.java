@@ -1,19 +1,19 @@
 package com.spotify.annoy;
 
+import java.util.Collection;
+import java.util.List;
+
 class AnnoyIndexImpl implements AnnoyIndex {
 
   private native void cppCtor(int f);
 
-  public AnnoyIndexImpl() {
+  AnnoyIndexImpl() {
   }
 
   AnnoyIndex init(int f) {
-    System.out.println(">>> " +  System.getProperty("java.library.path"));
     final String dir = System.getProperty("java.library.path");
     //set explicit path for our custom library
     System.load(dir + "/libannoy.jnilib"); //TODO: linux name is different.
-    System.out.println("annoy loaded!");
-
     cppCtor(f);
     return this;
   }
@@ -25,28 +25,41 @@ class AnnoyIndexImpl implements AnnoyIndex {
     return this;
   }
 
-  private native int[] cppGetNearestByVector(float[] distances, int n);
-
-  public int[] getNearestByVector(float[] distances, int n) {
-    return cppGetNearestByVector(distances, n);
+  public AnnoyIndex addAllItems(Collection<List<Float>> vectors) {
+    int i = size();
+    for (List<Float> vector: vectors){
+      float[] nativeVec = new float[vector.size()];
+      int j = 0;
+      for (Float f : vector) {
+        nativeVec[j++] = (f != null ? f : Float.NaN);
+      }
+      addItem(i++, nativeVec);
+    }
+    return this;
   }
 
-  private native int[] cppGetNearestByVectorK(float[] distances, int n, int searchK);
+  private native int[] cppGetNearestByVector(float[] vector, int n);
 
-  public int[] getNearestByVectorK(float[] distances, int n, int searchK) {
-    return cppGetNearestByVectorK(distances, n, searchK);
+  public int[] getNearestByVector(float[] vector, int n) {
+    return cppGetNearestByVector(vector, n);
   }
 
-  private native int[] cppGetNearestByItem(float[] distances, int item, int n);
+  private native int[] cppGetNearestByVectorK(float[] vector, int n, int searchK);
 
-  public int[] getNearestByItem(float[] distances, int item, int n) {
-    return cppGetNearestByItem(distances, item, n);
+  public int[] getNearestByVectorK(float[] vector, int n, int searchK) {
+    return cppGetNearestByVectorK(vector, n, searchK);
   }
 
-  private native int[] cppGetNearestByItemK(float[] distances, int item, int n, int searchK);
+  private native int[] cppGetNearestByItem(int item, int n);
 
-  public int[] getNearestByItemK(float[] distances, int item, int n, int searchK) {
-    return cppGetNearestByItemK(distances, item, n, searchK);
+  public int[] getNearestByItem(int item, int n) {
+    return cppGetNearestByItem(item, n);
+  }
+
+  private native int[] cppGetNearestByItemK(int item, int n, int searchK);
+
+  public int[] getNearestByItemK(int item, int n, int searchK) {
+    return cppGetNearestByItemK(item, n, searchK);
   }
 
   private native void cppBuild(int nTrees);
@@ -86,14 +99,5 @@ class AnnoyIndexImpl implements AnnoyIndex {
 
   public int size() {
     return cppSize();
-  }
-
-
-  // Test Driver
-  public static void main(String[] args) {
-    AnnoyIndexImpl annoyIndex = new AnnoyIndexImpl();
-    System.out.println("calling init");
-    annoyIndex.init(100);
-    System.out.println("init called!");
   }
 }

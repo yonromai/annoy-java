@@ -23,7 +23,6 @@ public class Annoy {
       printInputStream(pr.getErrorStream());
       throw new RuntimeException("making annoy failed.");
     }
-    System.out.println("path==" + jniDir.getAbsolutePath());
     System.setProperty("java.library.path", jniDir.getAbsolutePath());
   }
 

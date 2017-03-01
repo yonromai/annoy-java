@@ -1,5 +1,8 @@
 package com.spotify.annoy;
 
+import java.util.Collection;
+import java.util.List;
+
 /**
  * Annoy interface
  * Modeled after: https://github.com/spotify/annoy/blob/master/annoy/__init__.py
@@ -8,11 +11,15 @@ public interface AnnoyIndex extends Cloneable {
 
   AnnoyIndex addItem(int i, float[] vector);
 
-  int[] getNearestByVector(float[] distances, int n);
-  int[] getNearestByVectorK(float[] distances, int n, int searchK);
+  AnnoyIndex addAllItems(Collection<List<Float>> vectors);
 
-  int[] getNearestByItem(float[] distances, int item, int n);
-  int[] getNearestByItemK(float[] distances, int item, int n, int searchK);
+  int[] getNearestByVector(float[] vector, int n);
+
+  int[] getNearestByVectorK(float[] vector, int n, int searchK);
+
+  int[] getNearestByItem(int item, int n);
+
+  int[] getNearestByItemK(int item, int n, int searchK);
 
   AnnoyIndex build(int nTrees);
 

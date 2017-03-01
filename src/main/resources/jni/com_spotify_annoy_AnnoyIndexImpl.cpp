@@ -34,7 +34,6 @@ namespace
 
     for(int i=0; i<length; ++i) {
 	float d = inCArray[i];
-	printf("in C++, value of the array element####:%f\n", d);
     }
     env->ReleaseFloatArrayElements(jni_floats, inCArray, 0); // release resources
     return;
@@ -112,7 +111,6 @@ JNIEXPORT jintArray JNICALL Java_com_spotify_annoy_AnnoyIndexImpl_cppGetNearestB
     const char *filename= env->GetStringUTFChars(jni_filename, NULL);
     if (NULL == filename) return;
     bool b = annoy_index->save(filename);
-    printf("filename is %s success:%d\n", filename, b);
     env->ReleaseStringUTFChars(jni_filename, filename);  // release resources
     return;
 }
@@ -128,7 +126,6 @@ JNIEXPORT jintArray JNICALL Java_com_spotify_annoy_AnnoyIndexImpl_cppGetNearestB
     const char *filename= env->GetStringUTFChars(jni_filename, NULL);
     if (NULL == filename) return;
     bool b = annoy_index->load(filename);
-    printf("filename is %s success:%d\n", filename, b);
     env->ReleaseStringUTFChars(jni_filename, filename);  // release resources
     return;
 }
