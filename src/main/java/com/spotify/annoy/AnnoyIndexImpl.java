@@ -6,6 +6,8 @@ import org.apache.commons.lang3.ArrayUtils;
 
 class AnnoyIndexImpl implements AnnoyIndex {
 
+  private int f = -1;
+
   private native void cppCtor(int f);
 
   AnnoyIndexImpl() {
@@ -15,6 +17,7 @@ class AnnoyIndexImpl implements AnnoyIndex {
     final String dir = System.getProperty("java.library.path");
     //set explicit path for our custom library
     System.load(dir + "/libannoy.jnilib"); //TODO: linux name is different.
+    this.f = f;
     cppCtor(f);
     return this;
   }
@@ -22,6 +25,9 @@ class AnnoyIndexImpl implements AnnoyIndex {
   private native void cppAddItem(int i, float[] vector);
 
   public AnnoyIndex addItem(int i, List<Float> vector) {
+    if (vector.size() != f) {
+      throw new RuntimeException("Item's vector should match the dimension of the tree");
+    }
     cppAddItem(i, boxedToPrimitive(vector));
     return this;
   }
@@ -108,5 +114,4 @@ class AnnoyIndexImpl implements AnnoyIndex {
   private static float[] boxedToPrimitive(List<Float> v) {
     return ArrayUtils.toPrimitive(v.toArray(new Float[0]));
   }
-
 }
