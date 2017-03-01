@@ -24,7 +24,7 @@ namespace
 	for(int i=0; i<length; ++i) {
 	    float d = inCArray[i];
 	    vec->push_back(d);
-	    printf("in C++, value of the array element####:%f\n", d);
+	    //printf("in C++, value of the array element####:%f\n", d);
 	}
 	env->ReleaseFloatArrayElements(arr, inCArray, 0); // release resources
     }
@@ -46,7 +46,7 @@ namespace
 	for(int i=0; i<length; ++i) {
 	    float d = inCArray[i];
 	    vec->push_back(d);
-	    printf("in C++, value of the array element####:%f\n", d);
+	    //printf("in C++, value of the array element####:%f\n", d);
 	}
 	env->ReleaseIntArrayElements(arr, inCArray, 0); // release resources
     }
@@ -71,8 +71,9 @@ namespace
     JNIEXPORT void JNICALL Java_com_spotify_annoy_AnnoyIndexImpl_cppAddItem
 (JNIEnv *env, jobject obj, jint item, jfloatArray jni_floats)
 {
-    jfloatArray_to_vec(env, jni_floats, w);
-    annoy_index->add_item(item, &w);
+    vector<float> w;
+    jfloatArray_to_vec(env, jni_floats, &w);
+    annoy_index->add_item(item, &w[0]);
 }
 
 /*
@@ -111,13 +112,13 @@ namespace
  * Signature: ([FI)[I
  */
     JNIEXPORT jintArray JNICALL Java_com_spotify_annoy_AnnoyIndexImpl_cppGetNearestByItem
-(JNIEnv *env, jobject obj, jfloatArray vec, jint n)
+(JNIEnv *env, jobject obj, jint item, jint n)
 {
     size_t search_k = (size_t)-1;
     return Java_com_spotify_annoy_AnnoyIndexImpl_cppGetNearestByItemK(
 	    env,
 	    obj,
-	    vec,
+	    item,
 	    n,
 	    search_k);
 }
@@ -128,7 +129,7 @@ namespace
  * Signature: ([FII)[I
  */
     JNIEXPORT jintArray JNICALL Java_com_spotify_annoy_AnnoyIndexImpl_cppGetNearestByItemK
-(JNIEnv *env, jobject obj, jfloatArray vec, jint n, jint search_k)
+(JNIEnv *env, jobject obj, jint item, jint n, jint search_k)
 {
 
     return NULL;
