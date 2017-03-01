@@ -28,8 +28,8 @@ public class AnnoyTest {
         .build(2);
 
     assertThat(annoyIndex.size(), is(3));
-    assertThat(toBoxed(annoyIndex.getItemVector(1)), equalTo(v1));
-    assertThat(toBoxed(annoyIndex.getItemVector(0)), not(v1));
+    assertThat(annoyIndex.getItemVector(1), equalTo(v1));
+    assertThat(annoyIndex.getItemVector(0), not(v1));
   }
 
   @Test
@@ -48,11 +48,7 @@ public class AnnoyTest {
         .load(filename);
 
     assertThat(annoyIndex.size(), is(3));
-    assertThat(toBoxed(annoyIndex.getItemVector(0)), equalTo(v0));
-    assertThat(toBoxed(annoyIndex.getItemVector(0)), not(v1));
-  }
-
-  private static List<Float> toBoxed(float[] v) {
-    return Arrays.asList(ArrayUtils.toObject(v));
+    assertThat(annoyIndex.getItemVector(0), equalTo(v0));
+    assertThat(annoyIndex.getItemVector(0), not(v1));
   }
 }

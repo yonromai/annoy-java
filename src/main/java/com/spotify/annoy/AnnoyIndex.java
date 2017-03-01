@@ -1,6 +1,5 @@
 package com.spotify.annoy;
 
-import java.util.Collection;
 import java.util.List;
 
 /**
@@ -9,17 +8,17 @@ import java.util.List;
  */
 public interface AnnoyIndex extends Cloneable {
 
-  AnnoyIndex addItem(int i, float[] vector);
+  AnnoyIndex addItem(int i, List<Float> vector);
 
-  AnnoyIndex addAllItems(Collection<List<Float>> vectors);
+  AnnoyIndex addAllItems(List<List<Float>> vectors);
 
-  int[] getNearestByVector(float[] vector, int n);
+  List<Integer> getNearestByVector(List<Float> vector, int n);
 
-  int[] getNearestByVectorK(float[] vector, int n, int searchK);
+  List<Integer> getNearestByVectorK(List<Float> vector, int n, int searchK);
 
-  int[] getNearestByItem(int item, int n);
+  List<Integer> getNearestByItem(int item, int n);
 
-  int[] getNearestByItemK(int item, int n, int searchK);
+  List<Integer> getNearestByItemK(int item, int n, int searchK);
 
   AnnoyIndex build(int nTrees);
 
@@ -27,7 +26,7 @@ public interface AnnoyIndex extends Cloneable {
 
   AnnoyIndex load(String filename);
 
-  float[] getItemVector(int i);
+  List<Float> getItemVector(int i);
 
   float getDistance(int i, int j);
 
