@@ -25,28 +25,28 @@ class AnnoyIndexImpl implements AnnoyIndex {
     return this;
   }
 
-  private native int[] cppGetNearestByVector(float[] vector, int n);
+  private native int[] cppGetNearestByVector(float[] distances, int n);
 
-  public int[] getNearestByVector(float[] vector, int n) {
-    return cppGetNearestByVector(vector, n);
+  public int[] getNearestByVector(float[] distances, int n) {
+    return cppGetNearestByVector(distances, n);
   }
 
-  private native int[] cppGetNearestByVectorK(float[] vector, int n, int searchK);
+  private native int[] cppGetNearestByVectorK(float[] distances, int n, int searchK);
 
-  public int[] getNearestByVector(float[] vector, int n, int searchK) {
-    return cppGetNearestByVectorK(vector, n, searchK);
+  public int[] getNearestByVectorK(float[] distances, int n, int searchK) {
+    return cppGetNearestByVectorK(distances, n, searchK);
   }
 
-  private native int[] cppGetNearestByItem(float[] vector, int n);
+  private native int[] cppGetNearestByItem(float[] distances, int item, int n);
 
-  public int[] getNearestByItem(float[] vector, int n) {
-    return cppGetNearestByItem(vector, n);
+  public int[] getNearestByItem(float[] distances, int item, int n) {
+    return cppGetNearestByItem(distances, item, n);
   }
 
-  private native int[] cppGetNearestByItemK(float[] vector, int n, int searchK);
+  private native int[] cppGetNearestByItemK(float[] distances, int item, int n, int searchK);
 
-  public int[] getNearestByItem(float[] vector, int n, int searchK) {
-    return cppGetNearestByItemK(vector, n, searchK);
+  public int[] getNearestByItemK(float[] distances, int item, int n, int searchK) {
+    return cppGetNearestByItemK(distances, item, n, searchK);
   }
 
   private native void cppBuild(int nTrees);

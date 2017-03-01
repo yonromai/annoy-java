@@ -8,11 +8,11 @@ public interface AnnoyIndex extends Cloneable {
 
   AnnoyIndex addItem(int i, float[] vector);
 
-  int[] getNearestByVector(float[] vector, int n);
-  int[] getNearestByVector(float[] vector, int n, int searchK);
+  int[] getNearestByVector(float[] distances, int n);
+  int[] getNearestByVectorK(float[] distances, int n, int searchK);
 
-  int[] getNearestByItem(float[] vector, int n);
-  int[] getNearestByItem(float[] vector, int n, int searchK);
+  int[] getNearestByItem(float[] distances, int item, int n);
+  int[] getNearestByItemK(float[] distances, int item, int n, int searchK);
 
   AnnoyIndex build(int nTrees);
 
