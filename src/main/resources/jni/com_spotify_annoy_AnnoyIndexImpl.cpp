@@ -7,6 +7,49 @@
 namespace
 {
     static AnnoyIndex<int, float, Angular, RandRandom>* annoy_index;
+    jfloatArray vec_to_jfloatArray(JNIEnv *env, const vector<float> &vec)
+    {
+	jfloatArray outJNIArray = env->NewFloatArray(vec.size());  // allocate
+	if (NULL == outJNIArray) return NULL;
+	env->SetFloatArrayRegion(outJNIArray, 0 , vec.size(), &vec[0]);  // copy
+	return outJNIArray;
+    }
+
+    void jfloatArray_to_vec(JNIEnv *env, const jfloatArray arr, vector<float> *vec)
+    {
+	jfloat *inCArray = env->GetFloatArrayElements(arr, NULL);
+	if (NULL == inCArray) return;
+	jsize length = env->GetArrayLength(arr);
+
+	for(int i=0; i<length; ++i) {
+	    float d = inCArray[i];
+	    vec->push_back(d);
+	    printf("in C++, value of the array element####:%f\n", d);
+	}
+	env->ReleaseFloatArrayElements(arr, inCArray, 0); // release resources
+    }
+
+    jintArray vec_to_jintArray(JNIEnv *env, const vector<int> &vec)
+    {
+	jintArray outJNIArray = env->NewIntArray(vec.size());  // allocate
+	if (NULL == outJNIArray) return NULL;
+	env->SetIntArrayRegion(outJNIArray, 0 , vec.size(), &vec[0]);  // copy
+	return outJNIArray;
+    }
+
+    void jintArray_to_vec(JNIEnv *env, const jintArray arr, vector<int> *vec)
+    {
+	jint *inCArray = env->GetIntArrayElements(arr, NULL);
+	if (NULL == inCArray) return;
+	jsize length = env->GetArrayLength(arr);
+
+	for(int i=0; i<length; ++i) {
+	    float d = inCArray[i];
+	    vec->push_back(d);
+	    printf("in C++, value of the array element####:%f\n", d);
+	}
+	env->ReleaseIntArrayElements(arr, inCArray, 0); // release resources
+    }
 }
 
 /*
@@ -26,17 +69,10 @@ namespace
  * Signature: (I[F)V
  */
     JNIEXPORT void JNICALL Java_com_spotify_annoy_AnnoyIndexImpl_cppAddItem
-(JNIEnv *env, jobject obj, jint jni_int, jfloatArray jni_floats)
+(JNIEnv *env, jobject obj, jint item, jfloatArray jni_floats)
 {
-    jfloat *inCArray = env->GetFloatArrayElements(jni_floats, NULL);
-    if (NULL == inCArray) return;
-    jsize length = env->GetArrayLength(jni_floats);
-
-    for(int i=0; i<length; ++i) {
-	float d = inCArray[i];
-    }
-    env->ReleaseFloatArrayElements(jni_floats, inCArray, 0); // release resources
-    return;
+    jfloatArray_to_vec(env, jni_floats, w);
+    annoy_index->add_item(item, &w);
 }
 
 /*
@@ -45,12 +81,15 @@ namespace
  * Signature: ([FI)[I
  */
     JNIEXPORT jintArray JNICALL Java_com_spotify_annoy_AnnoyIndexImpl_cppGetNearestByVector
-(JNIEnv *env, jobject obj, jfloatArray, jint)
+(JNIEnv *env, jobject obj, jfloatArray vec, jint n)
 {
     size_t search_k = (size_t)-1;
-
-
-    return NULL;
+    return Java_com_spotify_annoy_AnnoyIndexImpl_cppGetNearestByVectorK(
+	    env,
+	    obj,
+	    vec,
+	    n,
+	    search_k);
 }
 
 /*
@@ -58,8 +97,8 @@ namespace
  * Method:    cppGetNearestByVectorK
  * Signature: ([FII)[I
  */
-JNIEXPORT jintArray JNICALL Java_com_spotify_annoy_AnnoyIndexImpl_cppGetNearestByVectorK
-  (JNIEnv *env, jobject obj, jfloatArray result, jint n, jint search_k)
+    JNIEXPORT jintArray JNICALL Java_com_spotify_annoy_AnnoyIndexImpl_cppGetNearestByVectorK
+(JNIEnv *env, jobject obj, jfloatArray result, jint n, jint search_k)
 {
 
     return NULL;
@@ -72,9 +111,15 @@ JNIEXPORT jintArray JNICALL Java_com_spotify_annoy_AnnoyIndexImpl_cppGetNearestB
  * Signature: ([FI)[I
  */
     JNIEXPORT jintArray JNICALL Java_com_spotify_annoy_AnnoyIndexImpl_cppGetNearestByItem
-(JNIEnv *env, jobject obj, jfloatArray, jint)
+(JNIEnv *env, jobject obj, jfloatArray vec, jint n)
 {
-    return NULL;
+    size_t search_k = (size_t)-1;
+    return Java_com_spotify_annoy_AnnoyIndexImpl_cppGetNearestByItemK(
+	    env,
+	    obj,
+	    vec,
+	    n,
+	    search_k);
 }
 
 /*
@@ -83,7 +128,7 @@ JNIEXPORT jintArray JNICALL Java_com_spotify_annoy_AnnoyIndexImpl_cppGetNearestB
  * Signature: ([FII)[I
  */
     JNIEXPORT jintArray JNICALL Java_com_spotify_annoy_AnnoyIndexImpl_cppGetNearestByItemK
-(JNIEnv *env, jobject obj, jfloatArray, jint, jint)
+(JNIEnv *env, jobject obj, jfloatArray vec, jint n, jint search_k)
 {
 
     return NULL;
