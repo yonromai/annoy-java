@@ -36,7 +36,8 @@ public class AnnoyTest {
   public void fileTest() throws Exception {
     Annoy.install();
 
-    String filename = System.getProperty("java.io.tmpdir") + "/tmp.annoy";
+    String tmpDir = System.getProperty("java.io.tmpdir");
+    String filename = String.format("%stmp-%d.annoy", tmpDir, System.currentTimeMillis());
 
     Annoy.newAnnoyIndex(3)
         .addAllItems(allVecs)
