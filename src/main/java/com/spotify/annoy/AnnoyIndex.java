@@ -10,7 +10,7 @@ public interface AnnoyIndex extends Cloneable {
 
   AnnoyIndex addItem(int i, List<Float> vector);
 
-  AnnoyIndex addAllItems(List<List<Float>> vectors);
+  AnnoyIndex addAllItems(Iterable<List<Float>> vectors);
 
   List<Integer> getNearestByVector(List<Float> vector, int n);
 

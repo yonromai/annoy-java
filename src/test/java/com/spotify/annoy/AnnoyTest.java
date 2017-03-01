@@ -7,7 +7,6 @@ import static org.junit.Assert.assertThat;
 
 import java.util.Arrays;
 import java.util.List;
-import org.apache.commons.lang3.ArrayUtils;
 import org.junit.Test;
 
 public class AnnoyTest {
@@ -21,9 +20,7 @@ public class AnnoyTest {
   public void basicTest() throws Exception {
     Annoy.install();
 
-
-
-    AnnoyIndex annoyIndex = Annoy.newAnnoyIndex(3)
+    AnnoyIndex annoyIndex = Annoy.newIndex(3)
         .addAllItems(allVecs)
         .build(2);
 
@@ -39,12 +36,12 @@ public class AnnoyTest {
     String tmpDir = System.getProperty("java.io.tmpdir");
     String filename = String.format("%stmp-%d.annoy", tmpDir, System.currentTimeMillis());
 
-    Annoy.newAnnoyIndex(3)
+    Annoy.newIndex(3)
         .addAllItems(allVecs)
         .build(2)
         .save(filename);
 
-    AnnoyIndex annoyIndex = Annoy.newAnnoyIndex(3)
+    AnnoyIndex annoyIndex = Annoy.newIndex(3)
         .load(filename);
 
     assertThat(annoyIndex.size(), is(3));

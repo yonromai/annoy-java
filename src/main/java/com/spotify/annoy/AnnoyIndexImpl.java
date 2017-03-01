@@ -26,7 +26,7 @@ class AnnoyIndexImpl implements AnnoyIndex {
     return this;
   }
 
-  public AnnoyIndex addAllItems(List<List<Float>> vectors) {
+  public AnnoyIndex addAllItems(Iterable<List<Float>> vectors) {
     int i = size();
     for (List<Float> vector : vectors) {
       addItem(i++, vector);

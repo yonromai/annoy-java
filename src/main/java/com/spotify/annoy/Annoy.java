@@ -26,7 +26,7 @@ public class Annoy {
     System.setProperty("java.library.path", jniDir.getAbsolutePath());
   }
 
-  public static AnnoyIndex newAnnoyIndex(int f) {
+  public static AnnoyIndex newIndex(int f) {
     return new AnnoyIndexImpl()
         .init(f);
   }
