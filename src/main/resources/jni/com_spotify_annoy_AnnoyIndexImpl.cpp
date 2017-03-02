@@ -2,11 +2,11 @@
 #include <com_spotify_annoy_AnnoyIndexImpl.h>
 #include <jni.h>
 #include <annoylib.h>
-
+#include <kissrandom.h>
 
 namespace
 {
-    static AnnoyIndex<int, float, Angular, RandRandom>* annoy_index;
+    static AnnoyIndex<int, float, Angular, Kiss64Random>* annoy_index;
     jfloatArray vec_to_jfloatArray(JNIEnv *env, const vector<float> &vec)
     {
 	jfloatArray outJNIArray = env->NewFloatArray(vec.size());  // allocate
@@ -60,7 +60,7 @@ namespace
     JNIEXPORT void JNICALL Java_com_spotify_annoy_AnnoyIndexImpl_cppCtor
 (JNIEnv *env, jobject obj, jint jni_int)
 {
-    annoy_index = new AnnoyIndex<int, float, Angular, RandRandom>(jni_int);
+    annoy_index = new AnnoyIndex<int, float, Angular, Kiss64Random>(jni_int);
 }
 
 /*
