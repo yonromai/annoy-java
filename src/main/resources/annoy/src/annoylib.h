@@ -71,6 +71,15 @@ struct RandRandom {
     // Draw random integer between 0 and n-1 where n is at most the number of data points you have
     return rand() % n;
   }
+  inline void set_seed(int seed) {
+    srand(seed);
+  }
+};
+
+struct SeededRandRandom: RandRandom {
+  SeededRandRandom(uint32_t seed = 123456789) {
+    srand(seed);
+  }
 };
 
 template<typename T>
@@ -328,10 +337,6 @@ public:
       _n_items = item + 1;
   }
 
-  void set_seed(int seed) {
-    srand(seed);
-  }
-
   void build(int q) {
     if (_loaded) {
       // TODO: throw exception
@@ -467,6 +472,10 @@ public:
   void get_item(S item, T* v) {
     Node* m = _get(item);
     std::copy(&m->v[0], &m->v[_f], v);
+  }
+
+  void set_seed(int seed) {
+    _random.set_seed(seed);
   }
 
 protected:

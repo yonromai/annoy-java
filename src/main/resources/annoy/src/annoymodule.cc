@@ -323,6 +323,7 @@ py_an_set_seed(py_annoy *self, PyObject *args) {
   Py_RETURN_NONE;
 }
 
+
 static PyMethodDef AnnoyMethods[] = {
   {"load",	(PyCFunction)py_an_load, METH_VARARGS, ""},
   {"save",	(PyCFunction)py_an_save, METH_VARARGS, ""},
