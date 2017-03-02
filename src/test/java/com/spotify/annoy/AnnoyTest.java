@@ -7,6 +7,8 @@ import static org.junit.Assert.assertThat;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -21,6 +23,7 @@ public class AnnoyTest {
   private static final List<Float> v1 = Arrays.asList(3f, 4f, 5f);
   private static final List<Float> v2 = Arrays.asList(6f, 7f, 8f);
   private static final List<List<Float>> allVecs = Arrays.asList(v0, v1, v2);
+
   private static final String tmpDir = System.getProperty("java.io.tmpdir");
 
   @BeforeClass
@@ -70,6 +73,14 @@ public class AnnoyTest {
   }
 
   @Test
+  public void setSeedTest() {
+    AnnoyIndex annoyIndex = Annoy.newIndex(3)
+        .addAllItems(allVecs)
+        .setSeed(42)
+        .build(2);
+  }
+
+  @Test
 //  @Test(expected=IndexOutOfBoundsException.class)
   public void outOfBoundsTest() {
     AnnoyIndex annoyIndex = Annoy.newIndex(3)
@@ -111,15 +122,49 @@ public class AnnoyTest {
   }
 
   @Test
-  public void setSeedTest() throws Exception {
-    Annoy.install();
-    AnnoyIndex annoyIndex = Annoy.newIndex(3)
-        .setSeed(42);
+  public void compareNnsToPython() throws IOException {
+    int dim = 20;
+    int nnsCnt = 100;
+    int seed = 42;
+    String expectedNnsFile = ClassLoader
+        .getSystemResource(String.format("%d_nns_of_%d.txt", nnsCnt, seed))
+        .getFile();
+
+    List<Integer> expectedNns = Files.readAllLines(Paths.get(expectedNnsFile))
+        .stream()
+        .map(Integer::parseInt)
+        .collect(Collectors.toList());
+
+    String annFile = ClassLoader.getSystemResource(String.format("test_%d.ann", dim)).getFile();
+    List<Integer> actualNns = Annoy.newIndex(dim)
+        .load(annFile)
+        .getNearestByItem(seed, nnsCnt);
+
+    assertThat(actualNns, is(expectedNns));
   }
 
-  // TODO: add 2 tests (like in annoy java):
-  // * Make sure that the NNs retrieved by the Java version match the ones pre-computed by the C++ version of the Angular index.
-  // * Make sure that the NNs retrieved by the Java version match the ones pre-computed by the C++ version of the Euclidean index.
+  @Test
+  public void compareNnsToPythonWithK() throws IOException {
+    int dim = 20;
+    int nnsCnt = 100;
+    int seed = 42;
+    int k = 2;
+    String expectedNnsFile = ClassLoader
+        .getSystemResource(String.format("%d_nns_of_%d_k%d.txt", nnsCnt, seed, k))
+        .getFile();
+
+    List<Integer> expectedNns = Files.readAllLines(Paths.get(expectedNnsFile))
+        .stream()
+        .map(Integer::parseInt)
+        .collect(Collectors.toList());
+
+    String annFile = ClassLoader.getSystemResource(String.format("test_%d.ann", dim)).getFile();
+    List<Integer> actualNns = Annoy.newIndex(dim)
+        .load(annFile)
+        .getNearestByItemK(seed, nnsCnt, k);
+
+    assertThat(actualNns, is(expectedNns));
+  }
 
   @AfterClass
   public static void rmTmpDir() {
