@@ -3,6 +3,7 @@ package com.spotify.annoy;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
 
 import java.io.File;
@@ -23,6 +24,7 @@ public class AnnoyTest {
   private static final List<Float> v1 = Arrays.asList(3f, 4f, 5f);
   private static final List<Float> v2 = Arrays.asList(6f, 7f, 8f);
   private static final List<List<Float>> allVecs = Arrays.asList(v0, v1, v2);
+  private static final float EPS = 0.0000001f;
 
   private static final String tmpDir = System.getProperty("java.io.tmpdir");
 
@@ -69,8 +71,10 @@ public class AnnoyTest {
     // FIXME: CosineDistance[{0, 1, 2}, {3, 4, 5}] = 0.114562f, WTF!
     float expectedCosDistance = 0.47866955f;
 
-    assertThat(annoyIndex.getDistance(0, 1), is(expectedCosDistance));
+    assertEquals(annoyIndex.getDistance(0, 1), expectedCosDistance, EPS);
   }
+
+
 
   @Test
   public void setSeedTest() {
