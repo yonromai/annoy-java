@@ -20,7 +20,7 @@ if not os.path.exists(benchmark_dir):
 
 # Tree generation
 dim = 40
-n_vecs = 100000
+n_vecs = 200000
 n_trees = 10
 
 print ">>> Building annoy tree..."
@@ -36,7 +36,7 @@ t.save(tree_file)
 
 # Queries generation
 print ">>> Generating queries..."
-n_queries = 10000
+n_queries = 20000
 query_file = '%s/%d_queries.txt' % (benchmark_dir, n_queries)
 queries = random.sample(range(n_vecs), n_queries)
 with open(query_file, 'w') as f:
@@ -54,7 +54,7 @@ p.wait()
 
 
 print ">>> Running Java benchmark..."
-nns_count = 100
+nns_count = 200
 cmd = ('mvn exec:java -q' +
        ' -Dexec.mainClass="com.spotify.annoy.Benchmark"' +
        ' -Djava.library.path="%s/target/classes/jni"' % wd +

@@ -67,7 +67,7 @@ public class AnnoyTest {
         .build(2);
 
     // FIXME: CosineDistance[{0, 1, 2}, {3, 4, 5}] = 0.114562f, WTF!
-    float expectedCosDistance = 0.47866952f;
+    float expectedCosDistance = 0.47866955f;
 
     assertThat(annoyIndex.getDistance(0, 1), is(expectedCosDistance));
   }
