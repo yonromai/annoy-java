@@ -65,17 +65,6 @@ namespace
 
 /*
  * Class:     com_spotify_annoy_AnnoyIndexImpl
- * Method:    cppSetSeed
- * Signature: (I)V
- */
-JNIEXPORT void JNICALL Java_com_spotify_annoy_AnnoyIndexImpl_cppSetSeed
-  (JNIEnv *env, jobject obj, jint seed)
-{
-    annoy_index->set_seed(seed);
-}
-
-/*
- * Class:     com_spotify_annoy_AnnoyIndexImpl
  * Method:    cppAddItem
  * Signature: (I[F)V
  */

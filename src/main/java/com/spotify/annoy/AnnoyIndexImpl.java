@@ -22,12 +22,6 @@ class AnnoyIndexImpl implements AnnoyIndex {
     return this;
   }
 
-  private native void cppSetSeed(int seed);
-  public AnnoyIndex setSeed(int seed) {
-    cppSetSeed(seed);
-    return this;
-  }
-
   private native void cppAddItem(int i, float[] vector);
 
   public AnnoyIndex addItem(int i, List<Float> vector) {
@@ -68,6 +62,10 @@ class AnnoyIndexImpl implements AnnoyIndex {
 
   public List<Integer> getNearestByItemK(int item, int n, int searchK) {
     return primitiveToBoxed(cppGetNearestByItemK(item, n, searchK));
+  }
+  
+  public AnnoyIndex setSeed(int seed) {
+    return null;
   }
 
   private native void cppBuild(int nTrees);
