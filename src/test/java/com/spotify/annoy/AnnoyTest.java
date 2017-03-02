@@ -78,7 +78,7 @@ public class AnnoyTest {
 
   @Test
   public void setSeedTest() {
-    AnnoyIndex annoyIndex = Annoy.newIndex(3)
+    Annoy.newIndex(3)
         .addAllItems(allVecs)
         .setSeed(42)
         .build(2);
