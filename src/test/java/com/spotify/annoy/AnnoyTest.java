@@ -5,11 +5,14 @@ import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
 import static org.junit.Assert.assertThat;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
-import java.util.stream.Stream;
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 public class AnnoyTest {
@@ -18,11 +21,15 @@ public class AnnoyTest {
   private static final List<Float> v1 = Arrays.asList(3f, 4f, 5f);
   private static final List<Float> v2 = Arrays.asList(6f, 7f, 8f);
   private static final List<List<Float>> allVecs = Arrays.asList(v0, v1, v2);
+  private static final String tmpDir = System.getProperty("java.io.tmpdir");
+
+  @BeforeClass
+  public static void installAnnoy() throws IOException, InterruptedException {
+    Annoy.install();
+  }
 
   @Test
-  public void basicTest() throws Exception {
-    Annoy.install();
-
+  public void basicTest() {
     AnnoyIndex annoyIndex = Annoy.newIndex(3)
         .addAllItems(allVecs)
         .build(2);
@@ -33,10 +40,8 @@ public class AnnoyTest {
   }
 
   @Test
-  public void fileTest() throws Exception {
-    Annoy.install();
+  public void fileTest() {
 
-    String tmpDir = System.getProperty("java.io.tmpdir");
     String filename = String.format("%stmp-%d.annoy", tmpDir, System.currentTimeMillis());
 
     Annoy.newIndex(3)
@@ -53,9 +58,7 @@ public class AnnoyTest {
   }
 
   @Test
-  public void distanceTest() throws Exception {
-    Annoy.install();
-
+  public void distanceTest() {
     AnnoyIndex annoyIndex = Annoy.newIndex(3)
         .addAllItems(allVecs)
         .build(2);
@@ -68,9 +71,7 @@ public class AnnoyTest {
 
   @Test
 //  @Test(expected=IndexOutOfBoundsException.class)
-  public void outOfBoundsTest() throws Exception {
-    Annoy.install();
-
+  public void outOfBoundsTest() {
     AnnoyIndex annoyIndex = Annoy.newIndex(3)
         .addItem(0, v0)
         .addItem(1, v1)
@@ -84,17 +85,13 @@ public class AnnoyTest {
   }
 
   @Test(expected = RuntimeException.class)
-  public void dimensionMismatchTest() throws Exception {
-    Annoy.install();
-
+  public void dimensionMismatchTest() {
     Annoy.newIndex(4)
         .addAllItems(allVecs);
   }
 
   @Test
-  public void nearestNeighborsCountTest() throws Exception {
-    Annoy.install();
-
+  public void nearestNeighborsCountTest() {
     Iterable<List<Float>> vectors = IntStream.range(0, 100)
         .mapToObj(i -> Arrays.asList(1f * i, 2f * i, 3f * i))
         .collect(Collectors.toList());
@@ -109,10 +106,16 @@ public class AnnoyTest {
 
     List<Float> queryVec = Arrays.asList(1f, 2f, 3f);
     assertThat(annoyIndex.getNearestByVector(queryVec, nNeighbors).size(), is(nNeighbors));
-    assertThat(annoyIndex.getNearestByVectorK(queryVec, nNeighbors, 2 * nNeighbors).size(), is(nNeighbors));
+    assertThat(annoyIndex.getNearestByVectorK(queryVec, nNeighbors, 2 * nNeighbors).size(),
+        is(nNeighbors));
   }
 
   // TODO: add 2 tests (like in annoy java):
   // * Make sure that the NNs retrieved by the Java version match the ones pre-computed by the C++ version of the Angular index.
   // * Make sure that the NNs retrieved by the Java version match the ones pre-computed by the C++ version of the Euclidean index.
+
+  @AfterClass
+  public static void rmTmpDir() {
+    new File(tmpDir).delete();
+  }
 }
