@@ -110,6 +110,13 @@ public class AnnoyTest {
         is(nNeighbors));
   }
 
+  @Test
+  public void setSeedTest() throws Exception {
+    Annoy.install();
+    AnnoyIndex annoyIndex = Annoy.newIndex(3)
+        .setSeed(42);
+  }
+
   // TODO: add 2 tests (like in annoy java):
   // * Make sure that the NNs retrieved by the Java version match the ones pre-computed by the C++ version of the Angular index.
   // * Make sure that the NNs retrieved by the Java version match the ones pre-computed by the C++ version of the Euclidean index.
