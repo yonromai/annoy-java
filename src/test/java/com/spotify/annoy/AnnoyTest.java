@@ -75,7 +75,6 @@ public class AnnoyTest {
   }
 
 
-
   @Test
   public void setSeedTest() {
     Annoy.newIndex(3)
