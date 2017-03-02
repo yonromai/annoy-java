@@ -9,7 +9,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
-import java.util.stream.Stream;
 import org.junit.Test;
 
 public class AnnoyTest {
@@ -110,6 +109,13 @@ public class AnnoyTest {
     List<Float> queryVec = Arrays.asList(1f, 2f, 3f);
     assertThat(annoyIndex.getNearestByVector(queryVec, nNeighbors).size(), is(nNeighbors));
     assertThat(annoyIndex.getNearestByVectorK(queryVec, nNeighbors, 2 * nNeighbors).size(), is(nNeighbors));
+  }
+
+  @Test
+  public void setSeedTest() throws Exception {
+    Annoy.install();
+    AnnoyIndex annoyIndex = Annoy.newIndex(3)
+        .setSeed(42);
   }
 
   // TODO: add 2 tests (like in annoy java):
