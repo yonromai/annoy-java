@@ -7,44 +7,13 @@
 namespace
 {
     static AnnoyIndex<jint, jfloat, Angular, Kiss64Random>* annoy_index;
-    jfloatArray vec_to_jfloatArray(JNIEnv *env, const vector<jfloat> &vec)
-    {
-	jfloatArray outJNIArray = env->NewFloatArray(vec.size());  // allocate
-	if (NULL == outJNIArray) return NULL;
-	env->SetFloatArrayRegion(outJNIArray, 0 , vec.size(), &vec[0]);  // copy
-	return outJNIArray;
-    }
 
-    void jfloatArray_to_vec(JNIEnv *env, const jfloatArray arr, vector<jfloat> *vec)
-    {
-	jfloat *inCArray = env->GetFloatArrayElements(arr, NULL);
-	if (NULL == inCArray) return;
-	jsize length = env->GetArrayLength(arr);
-	vec->resize(length);
-//	copy(inCArray, inCArray+length, &vec[0]);
-	env->ReleaseFloatArrayElements(arr, inCArray, 0); // release resources
-    }
-
-    jintArray vec_to_jintArray(JNIEnv *env, const vector<jint> &vec)
+    inline jintArray vec_to_jintArray(JNIEnv *env, const vector<jint> &vec)
     {
 	jintArray outJNIArray = env->NewIntArray(vec.size());  // allocate
 	if (NULL == outJNIArray) return NULL;
 	env->SetIntArrayRegion(outJNIArray, 0 , vec.size(), &vec[0]);  // copy
 	return outJNIArray;
-    }
-
-    void jintArray_to_vec(JNIEnv *env, const jintArray arr, vector<jint> *vec)
-    {
-	jint *inCArray = env->GetIntArrayElements(arr, NULL);
-	if (NULL == inCArray) return;
-	jsize length = env->GetArrayLength(arr);
-
-	for(int i=0; i<length; ++i) {
-	    jfloat d = inCArray[i];
-	    vec->push_back(d);
-	    //printf("in C++, value of the array element####:%f\n", d);
-	}
-	env->ReleaseIntArrayElements(arr, inCArray, 0); // release resources
     }
 }
 
