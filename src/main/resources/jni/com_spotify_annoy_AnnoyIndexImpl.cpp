@@ -82,15 +82,14 @@ namespace
  * Signature: ([FI)[I
  */
     JNIEXPORT jintArray JNICALL Java_com_spotify_annoy_AnnoyIndexImpl_cppGetNearestByVector
-(JNIEnv *env, jobject obj, jfloatArray vec, jint n)
+(JNIEnv *env, jobject obj, jfloatArray arr, jint n)
 {
     size_t search_k = (size_t)-1;
-    return Java_com_spotify_annoy_AnnoyIndexImpl_cppGetNearestByVectorK(
-	    env,
-	    obj,
-	    vec,
-	    n,
-	    search_k);
+    vector<float> w;
+    vector<int> result;
+    jfloatArray_to_vec(env, arr, &w);
+    annoy_index->get_nns_by_vector(&w[0], n, search_k, &result, NULL);
+    return vec_to_jintArray(env, result);
 }
 
 /*
@@ -99,10 +98,13 @@ namespace
  * Signature: ([FII)[I
  */
     JNIEXPORT jintArray JNICALL Java_com_spotify_annoy_AnnoyIndexImpl_cppGetNearestByVectorK
-(JNIEnv *env, jobject obj, jfloatArray result, jint n, jint search_k)
+(JNIEnv *env, jobject obj, jfloatArray arr, jint n, jint search_k)
 {
-
-    return NULL;
+    vector<float> w;
+    vector<int> result;
+    jfloatArray_to_vec(env, arr, &w);
+    annoy_index->get_nns_by_vector(&w[0], n, search_k, &result, NULL);
+    return vec_to_jintArray(env, result);
 }
 
 
@@ -115,12 +117,9 @@ namespace
 (JNIEnv *env, jobject obj, jint item, jint n)
 {
     size_t search_k = (size_t)-1;
-    return Java_com_spotify_annoy_AnnoyIndexImpl_cppGetNearestByItemK(
-	    env,
-	    obj,
-	    item,
-	    n,
-	    search_k);
+    vector<int> result;
+    annoy_index->get_nns_by_item(item, n, search_k, &result, NULL);
+    return vec_to_jintArray(env, result);
 }
 
 /*
@@ -131,8 +130,9 @@ namespace
     JNIEXPORT jintArray JNICALL Java_com_spotify_annoy_AnnoyIndexImpl_cppGetNearestByItemK
 (JNIEnv *env, jobject obj, jint item, jint n, jint search_k)
 {
-
-    return NULL;
+    vector<int> result;
+    annoy_index->get_nns_by_item(item, n, search_k, &result, NULL);
+    return vec_to_jintArray(env, result);
 }
 
 /*
