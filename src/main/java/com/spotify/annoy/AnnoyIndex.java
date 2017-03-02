@@ -20,6 +20,8 @@ public interface AnnoyIndex extends Cloneable {
 
   List<Integer> getNearestByItemK(int item, int n, int searchK);
 
+  AnnoyIndex setSeed(int seed);
+
   AnnoyIndex build(int nTrees);
 
   AnnoyIndex save(String filename);

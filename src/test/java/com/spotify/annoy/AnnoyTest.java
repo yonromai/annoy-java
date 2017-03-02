@@ -7,6 +7,9 @@ import static org.junit.Assert.assertThat;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
+import java.util.stream.Stream;
 import org.junit.Test;
 
 public class AnnoyTest {
@@ -65,7 +68,7 @@ public class AnnoyTest {
 
   @Test
 //  @Test(expected=IndexOutOfBoundsException.class)
-  public void outOfBoundTest() throws Exception {
+  public void outOfBoundsTest() throws Exception {
     Annoy.install();
 
     AnnoyIndex annoyIndex = Annoy.newIndex(3)
@@ -87,4 +90,29 @@ public class AnnoyTest {
     Annoy.newIndex(4)
         .addAllItems(allVecs);
   }
+
+  @Test
+  public void nearestNeighborsCountTest() throws Exception {
+    Annoy.install();
+
+    Iterable<List<Float>> vectors = IntStream.range(0, 100)
+        .mapToObj(i -> Arrays.asList(1f * i, 2f * i, 3f * i))
+        .collect(Collectors.toList());
+
+    AnnoyIndex annoyIndex = Annoy.newIndex(3)
+        .addAllItems(vectors)
+        .build(5);
+
+    int nNeighbors = 20;
+    assertThat(annoyIndex.getNearestByItem(50, nNeighbors).size(), is(nNeighbors));
+    assertThat(annoyIndex.getNearestByItemK(50, nNeighbors, 2 * nNeighbors).size(), is(nNeighbors));
+
+    List<Float> queryVec = Arrays.asList(1f, 2f, 3f);
+    assertThat(annoyIndex.getNearestByVector(queryVec, nNeighbors).size(), is(nNeighbors));
+    assertThat(annoyIndex.getNearestByVectorK(queryVec, nNeighbors, 2 * nNeighbors).size(), is(nNeighbors));
+  }
+
+  // TODO: add 2 tests (like in annoy java):
+  // * Make sure that the NNs retrieved by the Java version match the ones pre-computed by the C++ version of the Angular index.
+  // * Make sure that the NNs retrieved by the Java version match the ones pre-computed by the C++ version of the Euclidean index.
 }

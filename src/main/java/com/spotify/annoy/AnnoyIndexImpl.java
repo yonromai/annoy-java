@@ -25,9 +25,7 @@ class AnnoyIndexImpl implements AnnoyIndex {
   private native void cppAddItem(int i, float[] vector);
 
   public AnnoyIndex addItem(int i, List<Float> vector) {
-    if (vector.size() != f) {
-      throw new RuntimeException("Item's vector should match the dimension of the tree");
-    }
+    validateVecSize(vector);
     cppAddItem(i, boxedToPrimitive(vector));
     return this;
   }
@@ -43,12 +41,14 @@ class AnnoyIndexImpl implements AnnoyIndex {
   private native int[] cppGetNearestByVector(float[] vector, int n);
 
   public List<Integer> getNearestByVector(List<Float> vector, int n) {
+    validateVecSize(vector);
     return primitiveToBoxed(cppGetNearestByVector(boxedToPrimitive(vector), n));
   }
 
   private native int[] cppGetNearestByVectorK(float[] vector, int n, int searchK);
 
   public List<Integer> getNearestByVectorK(List<Float> vector, int n, int searchK) {
+    validateVecSize(vector);
     return primitiveToBoxed(cppGetNearestByVectorK(boxedToPrimitive(vector), n, searchK));
   }
 
@@ -62,6 +62,10 @@ class AnnoyIndexImpl implements AnnoyIndex {
 
   public List<Integer> getNearestByItemK(int item, int n, int searchK) {
     return primitiveToBoxed(cppGetNearestByItemK(item, n, searchK));
+  }
+  
+  public AnnoyIndex setSeed(int seed) {
+    return null;
   }
 
   private native void cppBuild(int nTrees);
@@ -103,6 +107,8 @@ class AnnoyIndexImpl implements AnnoyIndex {
     return cppSize();
   }
 
+  // helpers
+
   private static List<Float> primitiveToBoxed(float[] v) {
     return Arrays.asList(ArrayUtils.toObject(v));
   }
@@ -113,5 +119,11 @@ class AnnoyIndexImpl implements AnnoyIndex {
 
   private static float[] boxedToPrimitive(List<Float> v) {
     return ArrayUtils.toPrimitive(v.toArray(new Float[0]));
+  }
+
+  private void validateVecSize(List<Float> vector) {
+    if (vector.size() != f) {
+      throw new RuntimeException("Item's vector should match the dimension of the tree");
+    }
   }
 }
