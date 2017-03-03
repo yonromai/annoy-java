@@ -8,10 +8,6 @@ import java.util.List;
  */
 public interface AnnoyIndex extends Cloneable {
 
-  AnnoyIndex addItem(int i, List<Float> vector);
-
-  AnnoyIndex addAllItems(Iterable<List<Float>> vectors);
-
   List<Integer> getNearestByVector(List<Float> vector, int n);
 
   List<Integer> getNearestByVectorK(List<Float> vector, int n, int searchK);
@@ -20,17 +16,11 @@ public interface AnnoyIndex extends Cloneable {
 
   List<Integer> getNearestByItemK(int item, int n, int searchK);
 
-  AnnoyIndex setSeed(int seed);
-
-  AnnoyIndex build(int nTrees);
-
-  AnnoyIndex save(String filename);
-
-  AnnoyIndex load(String filename);
-
   List<Float> getItemVector(int i);
 
   float getDistance(int i, int j);
 
   int size();
+
+  AnnoyIndex save(String filename);
 }

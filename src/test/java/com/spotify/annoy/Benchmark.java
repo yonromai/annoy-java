@@ -23,8 +23,7 @@ public class Benchmark {
 
   private static void runBenchmark(String annPath, Integer dim, String queryFile, Integer nnsCount)
       throws IOException, InterruptedException {
-    AnnoyIndex index = Annoy.newIndex(dim)
-        .load(annPath);
+    AnnoyIndex index = Annoy.loadIndex(annPath, dim);
 
     List<Integer> queries = Files.readAllLines(Paths.get(queryFile))
         .stream()

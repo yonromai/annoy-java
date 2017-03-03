@@ -54,9 +54,7 @@ public class AnnoyTest {
         .build(2)
         .save(filename);
 
-    AnnoyIndex annoyIndex = Annoy.newIndex(3)
-        .load(filename);
-
+    AnnoyIndex annoyIndex = Annoy.loadIndex(filename, 3);
     assertThat(annoyIndex.size(), is(3));
     assertThat(annoyIndex.getItemVector(0), equalTo(v0));
     assertThat(annoyIndex.getItemVector(0), not(v1));
@@ -139,8 +137,7 @@ public class AnnoyTest {
         .collect(Collectors.toList());
 
     String annFile = ClassLoader.getSystemResource(String.format("test_%d.ann", dim)).getFile();
-    List<Integer> actualNns = Annoy.newIndex(dim)
-        .load(annFile)
+    List<Integer> actualNns = Annoy.loadIndex(annFile, dim)
         .getNearestByItem(seed, nnsCnt);
 
     assertThat(actualNns, is(expectedNns));
@@ -162,8 +159,7 @@ public class AnnoyTest {
         .collect(Collectors.toList());
 
     String annFile = ClassLoader.getSystemResource(String.format("test_%d.ann", dim)).getFile();
-    List<Integer> actualNns = Annoy.newIndex(dim)
-        .load(annFile)
+    List<Integer> actualNns = Annoy.loadIndex(annFile, dim)
         .getNearestByItemK(seed, nnsCnt, k);
 
     assertThat(actualNns, is(expectedNns));

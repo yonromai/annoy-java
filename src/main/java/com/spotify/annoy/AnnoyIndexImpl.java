@@ -6,37 +6,33 @@ import org.apache.commons.lang3.ArrayUtils;
 
 class AnnoyIndexImpl implements AnnoyIndex {
 
-  private int f = -1;
+  private final int f;
 
   private native void cppCtor(int f);
 
-  AnnoyIndexImpl() {
-  }
-
-  AnnoyIndex init(int f) {
+  AnnoyIndexImpl(int f) {
+    this.f = f;
     final String dir = System.getProperty("java.library.path");
     //set explicit path for our custom library
     System.load(dir + "/libannoy.jnilib"); //TODO: linux name is different.
-    this.f = f;
     cppCtor(f);
-    return this;
   }
 
   private native void cppSetSeed(int seed);
-  public AnnoyIndex setSeed(int seed) {
+  AnnoyIndex setSeed(int seed) {
     cppSetSeed(seed);
     return this;
   }
 
   private native void cppAddItem(int i, float[] vector);
 
-  public AnnoyIndex addItem(int i, List<Float> vector) {
+  AnnoyIndex addItem(int i, List<Float> vector) {
     validateVecSize(vector);
     cppAddItem(i, boxedToPrimitive(vector));
     return this;
   }
 
-  public AnnoyIndex addAllItems(Iterable<List<Float>> vectors) {
+  AnnoyIndex addAllItems(Iterable<List<Float>> vectors) {
     int i = size();
     for (List<Float> vector : vectors) {
       addItem(i++, vector);
@@ -72,7 +68,7 @@ class AnnoyIndexImpl implements AnnoyIndex {
 
   private native void cppBuild(int nTrees);
 
-  public AnnoyIndex build(int nTrees) {
+  AnnoyIndex build(int nTrees) {
     cppBuild(nTrees);
     return this;
   }
@@ -86,7 +82,7 @@ class AnnoyIndexImpl implements AnnoyIndex {
 
   private native void cppLoad(String filename);
 
-  public AnnoyIndex load(String filename) {
+  AnnoyIndex load(String filename) {
     cppLoad(filename);
     return this;
   }

@@ -5,14 +5,50 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.List;
 
 public class Annoy {
 
-  private static void verifyInstall() {
-    // TODO: verify g++ and make are installed
+  public static class Builder {
+
+    private final AnnoyIndexImpl ann;
+
+    private Builder(int dim) {
+      ann = new AnnoyIndexImpl(dim);
+    }
+
+    public Builder addItem(int i, List<Float> vector) {
+      ann.addItem(i, vector);
+      return this;
+    }
+
+    public Builder addAllItems(Iterable<List<Float>> vectors) {
+      ann.addAllItems(vectors);
+      return this;
+    }
+
+    public Builder setSeed(int seed) {
+      ann.setSeed(seed);
+      return this;
+    }
+
+    public AnnoyIndex build(int nTrees) {
+      return ann.build(nTrees);
+    }
   }
 
+  public static Builder newIndex(int dim) {
+    return new Builder(dim);
+  }
+
+  public static AnnoyIndex loadIndex(String filename, int dim) {
+    return new AnnoyIndexImpl(dim)
+            .load(filename);
+  }
+
+  // Enable to install annoy on the fly
   public static void install() throws IOException, InterruptedException {
+    verifyInstall();
     Runtime rt = Runtime.getRuntime();
     File jniDir = new File(ClassLoader.getSystemResource("jni").getFile());
     Process pr = rt.exec("make", null, jniDir);
@@ -24,11 +60,6 @@ public class Annoy {
       throw new RuntimeException("making annoy failed.");
     }
     System.setProperty("java.library.path", jniDir.getAbsolutePath());
-  }
-
-  public static AnnoyIndex newIndex(int f) {
-    return new AnnoyIndexImpl()
-        .init(f);
   }
 
   // FIXME: add proper logging
@@ -45,4 +76,7 @@ public class Annoy {
     }
   }
 
+  private static void verifyInstall() {
+    // TODO: verify g++ and make are installed
+  }
 }
