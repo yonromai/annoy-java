@@ -9,7 +9,7 @@ import java.util.stream.Collectors;
 import org.apache.commons.math3.stat.descriptive.DescriptiveStatistics;
 
 /**
- * Called by scripts/benchmark_java_vs_python.py
+ * Called by `python /src/test/python/benchmark_java_vs_python.py`
  */
 public class Benchmark {
 

@@ -2,7 +2,7 @@
 
 ## Run python vs. java benchmark
 ```
-./scripts/benchmark_java_vs_python.py
+./src/test/python/benchmark_java_vs_python.py
 ```
 
 ## Fetch new version of annoy

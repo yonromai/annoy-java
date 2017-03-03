@@ -10,7 +10,7 @@ from annoy import AnnoyIndex
 random.seed = 42
 
 this_dir = os.path.dirname(os.path.realpath(__file__))
-test_resources_dir = this_dir + '/../src/test/resources'
+test_resources_dir = this_dir + '/../resources'
 
 dim = 20
 n_vecs = 10000

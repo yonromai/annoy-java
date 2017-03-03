@@ -15,13 +15,13 @@ random.seed = 42
 np.random.seed(random.seed)
 
 this_dir = os.path.dirname(os.path.realpath(__file__))
-benchmark_dir = this_dir + '/../src/test/resources/benchmark'
+benchmark_dir = this_dir + '/../resources/benchmark'
 if not os.path.exists(benchmark_dir):
     os.makedirs(benchmark_dir)
 
 # Compile Java code
 print ">>> Compiling annoy-java..."
-wd = this_dir + '/..'
+wd = this_dir + '/../../..'
 p = subprocess.Popen('mvn clean test', cwd=wd, stdout=subprocess.PIPE, shell=True)
 p.wait()
 if p.returncode != 0:
