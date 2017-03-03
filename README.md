@@ -15,3 +15,4 @@ git subtree pull --prefix src/main/resources/annoy annoy master --squash
 
 ## TODO
 * Find better annoy packaging than git subtree
+* Play with mvn native plugins (like [this](http://maven-nar.github.io/) and [that](http://www.mojohaus.org/maven-native/native-maven-plugin/))
