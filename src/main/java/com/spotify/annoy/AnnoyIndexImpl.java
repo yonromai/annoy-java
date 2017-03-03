@@ -54,13 +54,13 @@ class AnnoyIndexImpl implements AnnoyIndex {
     cppCtor(dim);
   }
 
-  AnnoyIndex addItem(int i, List<Float> vector) {
+  AnnoyIndexImpl addItem(int i, List<Float> vector) {
     validateVecSize(vector);
     cppAddItem(i, boxedToPrimitive(vector));
     return this;
   }
 
-  AnnoyIndex addAllItems(Iterable<List<Float>> vectors) {
+  AnnoyIndexImpl addAllItems(Iterable<List<Float>> vectors) {
     int i = size();
     for (List<Float> vector : vectors) {
       addItem(i++, vector);
@@ -68,17 +68,17 @@ class AnnoyIndexImpl implements AnnoyIndex {
     return this;
   }
 
-  AnnoyIndex build(int nTrees) {
+  AnnoyIndexImpl build(int nTrees) {
     cppBuild(nTrees);
     return this;
   }
 
-  AnnoyIndex load(String filename) {
+  AnnoyIndexImpl load(String filename) {
     cppLoad(filename);
     return this;
   }
 
-  AnnoyIndex setSeed(int seed) {
+  AnnoyIndexImpl setSeed(int seed) {
     cppSetSeed(seed);
     return this;
   }
