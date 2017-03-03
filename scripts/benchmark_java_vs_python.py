@@ -7,16 +7,17 @@ import os
 import random
 import shutil
 import subprocess
+import sys
 import time
 from annoy import AnnoyIndex
 
 random.seed = 42
+np.random.seed(random.seed)
 
 this_dir = os.path.dirname(os.path.realpath(__file__))
 benchmark_dir = this_dir + '/../src/test/resources/benchmark'
 if not os.path.exists(benchmark_dir):
     os.makedirs(benchmark_dir)
-
 
 # Tree generation
 dim = 40
@@ -33,7 +34,6 @@ t.build(n_trees)
 tree_file = benchmark_dir + '/test_%d.ann' % dim
 t.save(tree_file)
 
-
 # Queries generation
 print ">>> Generating queries..."
 n_queries = 50000
@@ -43,15 +43,16 @@ with open(query_file, 'w') as f:
     for query in queries:
         f.write(str(query) + '\n')
 
-
 # Java perf test
 print ">>> Compiling Java benchmark..."
 wd = this_dir + '/..'
 p = subprocess.Popen('mvn clean test', cwd=wd, stdout=subprocess.PIPE, shell=True)
 p.wait()
-# for stdout_line in iter(p.stdout.readline, ""):
-#     print stdout_line.strip()
-
+if p.returncode != 0:
+    for stdout_line in iter(p.stdout.readline, ""):
+        print stdout_line.strip()
+    print ">>> Java compilation failed, aborting benchmark."
+    sys.exit(p.returncode)
 
 print ">>> Running Java benchmark..."
 nns_count = 200
@@ -63,7 +64,6 @@ cmd = ('mvn exec:java -q' +
 p = subprocess.Popen(cmd, cwd=wd, stdout=subprocess.PIPE, shell=True)
 for stdout_line in iter(p.stdout.readline, ""):
     print stdout_line.strip()
-
 
 # Python Perf
 print ">>> Running Python benchmark..."
@@ -80,7 +80,6 @@ print "Median time: %.5fs" % np.median(times)
 print "Stddev time: %.5fs" % np.std(times)
 print "Min time:    %.5fs" % np.min(times)
 print "Max time:    %.5fs" % np.max(times)
-
 
 # Clean up
 shutil.rmtree(benchmark_dir)
