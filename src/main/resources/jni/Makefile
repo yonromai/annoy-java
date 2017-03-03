@@ -5,7 +5,7 @@
 
 UNAME_S := $(shell uname -s)
 ifeq ($(UNAME_S),Linux)
-	JAVA_HOME :=/usr/lib/jvm/jdk-8-oracle-x64
+	JAVA_HOME :=/usr/lib/jvm/default-java
 	JNIFLAGS  :=-I $(JAVA_HOME)/include -I ${JAVA_HOME}/include/linux
 endif
 ifeq ($(UNAME_S),Darwin)
