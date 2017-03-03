@@ -14,7 +14,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
-import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -26,7 +25,6 @@ public class AnnoyTest {
   private static final List<List<Float>> allVecs = Arrays.asList(v0, v1, v2);
   private static final float EPS = 0.0000001f;
 
-  private static final String tmpDir = System.getProperty("java.io.tmpdir");
 
   @BeforeClass
   public static void installAnnoy() throws IOException, InterruptedException {
@@ -46,9 +44,7 @@ public class AnnoyTest {
 
   @Test
   public void fileTest() {
-
-    String filename = String.format("./%stmp-%d.annoy", tmpDir, System.currentTimeMillis());
-
+    String filename = String.format("./%d.annoy", System.currentTimeMillis());
     Annoy.newIndex(3)
         .addAllItems(allVecs)
         .build(2)
@@ -58,6 +54,7 @@ public class AnnoyTest {
     assertThat(annoyIndex.size(), is(3));
     assertThat(annoyIndex.getItemVector(0), equalTo(v0));
     assertThat(annoyIndex.getItemVector(0), not(v1));
+    new File(filename).delete();
   }
 
   @Test
@@ -163,10 +160,5 @@ public class AnnoyTest {
         .getNearestByItem(seed, nnsCnt, k);
 
     assertThat(actualNns, is(expectedNns));
-  }
-
-  @AfterClass
-  public static void rmTmpDir() {
-    new File(tmpDir).delete();
   }
 }
