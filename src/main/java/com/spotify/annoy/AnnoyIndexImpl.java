@@ -14,7 +14,7 @@ class AnnoyIndexImpl implements AnnoyIndex {
     return primitiveToBoxed(cppGetNearestByVector(boxedToPrimitive(vector), n));
   }
 
-  public List<Integer> getNearestByVectorK(List<Float> vector, int n, int searchK) {
+  public List<Integer> getNearestByVector(List<Float> vector, int n, int searchK) {
     validateVecSize(vector);
     return primitiveToBoxed(cppGetNearestByVectorK(boxedToPrimitive(vector), n, searchK));
   }
@@ -23,7 +23,7 @@ class AnnoyIndexImpl implements AnnoyIndex {
     return primitiveToBoxed(cppGetNearestByItem(item, n));
   }
 
-  public List<Integer> getNearestByItemK(int item, int n, int searchK) {
+  public List<Integer> getNearestByItem(int item, int n, int searchK) {
     return primitiveToBoxed(cppGetNearestByItemK(item, n, searchK));
   }
 

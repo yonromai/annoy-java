@@ -114,11 +114,11 @@ public class AnnoyTest {
 
     int nNeighbors = 20;
     assertThat(annoyIndex.getNearestByItem(50, nNeighbors).size(), is(nNeighbors));
-    assertThat(annoyIndex.getNearestByItemK(50, nNeighbors, 2 * nNeighbors).size(), is(nNeighbors));
+    assertThat(annoyIndex.getNearestByItem(50, nNeighbors, 2 * nNeighbors).size(), is(nNeighbors));
 
     List<Float> queryVec = Arrays.asList(1f, 2f, 3f);
     assertThat(annoyIndex.getNearestByVector(queryVec, nNeighbors).size(), is(nNeighbors));
-    assertThat(annoyIndex.getNearestByVectorK(queryVec, nNeighbors, 2 * nNeighbors).size(),
+    assertThat(annoyIndex.getNearestByVector(queryVec, nNeighbors, 2 * nNeighbors).size(),
         is(nNeighbors));
   }
 
@@ -160,7 +160,7 @@ public class AnnoyTest {
 
     String annFile = ClassLoader.getSystemResource(String.format("test_%d.ann", dim)).getFile();
     List<Integer> actualNns = Annoy.loadIndex(annFile, dim)
-        .getNearestByItemK(seed, nnsCnt, k);
+        .getNearestByItem(seed, nnsCnt, k);
 
     assertThat(actualNns, is(expectedNns));
   }
