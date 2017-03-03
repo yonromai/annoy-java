@@ -4,9 +4,9 @@ import java.util.List;
 
 /**
  * Annoy interface
- * Modeled after: https://github.com/spotify/annoy/blob/master/annoy/__init__.py
+ * Modeled after: https://github.com/spotify/annoy/blob/master/annoy/__init__.py, sorta
  */
-public interface AnnoyIndex extends Cloneable {
+public interface AnnoyIndex {
 
   List<Integer> getNearestByVector(List<Float> vector, int n);
 

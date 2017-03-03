@@ -46,7 +46,7 @@ public class Annoy {
             .load(filename);
   }
 
-  // Enable to install annoy on the fly
+  // Enable to install annoy on the fly, :'(
   public static void install() throws IOException, InterruptedException {
     verifyInstall();
     Runtime rt = Runtime.getRuntime();
