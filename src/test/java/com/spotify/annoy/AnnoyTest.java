@@ -47,7 +47,7 @@ public class AnnoyTest {
   @Test
   public void fileTest() {
 
-    String filename = String.format("%stmp-%d.annoy", tmpDir, System.currentTimeMillis());
+    String filename = String.format("./%stmp-%d.annoy", tmpDir, System.currentTimeMillis());
 
     Annoy.newIndex(3)
         .addAllItems(allVecs)
