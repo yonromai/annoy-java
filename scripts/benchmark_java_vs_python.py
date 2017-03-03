@@ -19,6 +19,17 @@ benchmark_dir = this_dir + '/../src/test/resources/benchmark'
 if not os.path.exists(benchmark_dir):
     os.makedirs(benchmark_dir)
 
+# Compile Java code
+print ">>> Compiling annoy-java..."
+wd = this_dir + '/..'
+p = subprocess.Popen('mvn clean test', cwd=wd, stdout=subprocess.PIPE, shell=True)
+p.wait()
+if p.returncode != 0:
+    for stdout_line in iter(p.stdout.readline, ""):
+        print stdout_line.strip()
+    print ">>> Java compilation failed, aborting benchmark."
+    sys.exit(p.returncode)
+
 # Tree generation
 dim = 40
 n_vecs = 500000
@@ -44,16 +55,6 @@ with open(query_file, 'w') as f:
         f.write(str(query) + '\n')
 
 # Java perf test
-print ">>> Compiling Java benchmark..."
-wd = this_dir + '/..'
-p = subprocess.Popen('mvn clean test', cwd=wd, stdout=subprocess.PIPE, shell=True)
-p.wait()
-if p.returncode != 0:
-    for stdout_line in iter(p.stdout.readline, ""):
-        print stdout_line.strip()
-    print ">>> Java compilation failed, aborting benchmark."
-    sys.exit(p.returncode)
-
 print ">>> Running Java benchmark..."
 nns_count = 200
 cmd = ('mvn exec:java -q' +
