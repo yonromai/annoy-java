@@ -14,5 +14,8 @@ git subtree pull --prefix src/main/resources/annoy annoy master --squash
 (Then compile and push to origin if builds.)
 
 ## TODO
+* Add usage instructions
+* Once tested in prod, move to spotify/annoy-java
+* Give a try to [faiss](https://github.com/facebookresearch/faiss)
 * Find better annoy packaging than git subtree
 * Play with mvn native plugins (like [this](http://maven-nar.github.io/) and [that](http://www.mojohaus.org/maven-native/native-maven-plugin/))
