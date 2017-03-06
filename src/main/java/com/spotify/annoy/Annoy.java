@@ -42,12 +42,18 @@ public class Annoy {
   }
 
   public static AnnoyIndex loadIndex(String filename, int dim) {
+    return loadIndex(filename, dim, 42);
+  }
+
+  public static AnnoyIndex loadIndex(String filename, int dim, int rngSeed) {
     return new AnnoyIndexImpl(dim)
-            .load(filename);
+        .setSeed(rngSeed)
+        .load(filename);
   }
 
   static String LIB_PATH = "java.library.path";
   static String ANNOY_LIB_NAME = "/libannoy.jnilib";
+
   // Enable to install annoy on the fly, :'(
   public static void install() throws IOException, InterruptedException {
     String annoyLibPath = System.getProperty(LIB_PATH) + ANNOY_LIB_NAME;

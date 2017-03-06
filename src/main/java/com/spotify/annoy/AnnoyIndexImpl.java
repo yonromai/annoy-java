@@ -49,7 +49,7 @@ class AnnoyIndexImpl implements AnnoyIndex {
   AnnoyIndexImpl(int dim) {
     this.dim = dim;
     final String dir = System.getProperty(Annoy.LIB_PATH);
-    System.load(dir + Annoy.ANNOY_LIB_NAME); 
+    System.load(dir + Annoy.ANNOY_LIB_NAME);
     cppCtor(dim);
   }
 
