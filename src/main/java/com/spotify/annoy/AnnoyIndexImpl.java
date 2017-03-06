@@ -48,9 +48,8 @@ class AnnoyIndexImpl implements AnnoyIndex {
 
   AnnoyIndexImpl(int dim) {
     this.dim = dim;
-    final String dir = System.getProperty("java.library.path");
-    //set explicit path for our custom library
-    System.load(dir + "/libannoy.jnilib"); //TODO: linux name is different.
+    final String dir = System.getProperty(Annoy.LIB_PATH);
+    System.load(dir + Annoy.ANNOY_LIB_NAME); 
     cppCtor(dim);
   }
 

@@ -46,8 +46,14 @@ public class Annoy {
             .load(filename);
   }
 
+  static String LIB_PATH = "java.library.path";
+  static String ANNOY_LIB_NAME = "/libannoy.jnilib";
   // Enable to install annoy on the fly, :'(
   public static void install() throws IOException, InterruptedException {
+    String annoyLibPath = System.getProperty(LIB_PATH) + ANNOY_LIB_NAME;
+    if (new File(annoyLibPath).exists()) {
+      return; // Already installed
+    }
     verifyInstall();
     Runtime rt = Runtime.getRuntime();
     File jniDir = new File(ClassLoader.getSystemResource("jni").getFile());
@@ -59,7 +65,7 @@ public class Annoy {
       printInputStream(pr.getErrorStream());
       throw new RuntimeException("making annoy failed.");
     }
-    System.setProperty("java.library.path", jniDir.getAbsolutePath());
+    System.setProperty(LIB_PATH, jniDir.getAbsolutePath());
   }
 
   // FIXME: add proper logging
