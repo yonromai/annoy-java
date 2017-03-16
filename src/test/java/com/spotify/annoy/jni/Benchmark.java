@@ -1,5 +1,7 @@
-package com.spotify.annoy;
+package com.spotify.annoy.jni;
 
+import com.spotify.annoy.jni.Annoy;
+import com.spotify.annoy.jni.AnnoyIndex;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;

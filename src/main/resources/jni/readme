@@ -9,15 +9,15 @@ javac com/spotify/annoy/*.java
 
 2)Create C header file:
 ```
-javah -jni com.spotify.annoy.AnnoyIndexImpl
+javah -jni com.spotify.annoy.jni.AnnoyIndexImpl
 ```
 
-3)Write your C++ code logic in com_spotify_annoy_AnnoyIndexImpl.cpp
+3)Write your C++ code logic in com_spotify_annoy_jni_AnnoyIndexImpl.cpp
 
 4)Create the annoy library
 just type `make` to use the Makefile or, g++ directly:
 ```
-g++ -o libannoy.jnilib -lc -shared -I. -I../resources/annoy/src -I/System/Library/Frameworks/JavaVM.framework/Headers com_spotify_annoy_AnnoyIndexImpl.cpp
+g++ -o libannoy.jnilib -lc -shared -I. -I../resources/annoy/src -I/System/Library/Frameworks/JavaVM.framework/Headers com_spotify_annoy_jni_AnnoyIndexImpl.cpp
 ```
 
 5)Good to go, run the java program:

@@ -1,4 +1,4 @@
-package com.spotify.annoy;
+package com.spotify.annoy.jni;
 
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
@@ -6,6 +6,8 @@ import static org.hamcrest.Matchers.not;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
 
+import com.spotify.annoy.jni.Annoy;
+import com.spotify.annoy.jni.AnnoyIndex;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;

@@ -20,12 +20,12 @@ CC        :=g++
 CFLAGS    :=-I. -I../annoy/src -lc -shared
 FASTFLAGS :=-O3 -march=native -ffast-math -fPIC
 SOBJ      :=libannoy.jnilib
-SOURCE    :=com_spotify_annoy_AnnoyIndexImpl.cpp
-HEADER    :=com_spotify_annoy_AnnoyIndexImpl.h
+SOURCE    :=com_spotify_annoy_jni_AnnoyIndexImpl.cpp
+HEADER    :=com_spotify_annoy_jni_AnnoyIndexImpl.h
 
 all: annoy
 
 annoy:
-	$(JAVAH) -cp ../ -o ./$(HEADER) -jni com.spotify.annoy.AnnoyIndexImpl
+	$(JAVAH) -cp ../ -o ./$(HEADER) -jni com.spotify.annoy.jni.AnnoyIndexImpl
 	$(CC) $(CFLAGS) $(JNIFLAGS) $(FASTFLAGS) -o $(SOBJ) $(SOURCE)
 

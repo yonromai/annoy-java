@@ -1,5 +1,5 @@
 #include <iostream>
-#include <com_spotify_annoy_AnnoyIndexImpl.h>
+#include <com_spotify_annoy_jni_AnnoyIndexImpl.h>
 #include <jni.h>
 #include <annoylib.h>
 #include <kissrandom.h>
@@ -18,33 +18,33 @@ namespace
 }
 
 /*
- * Class:     com_spotify_annoy_AnnoyIndexImpl
+ * Class:     com_spotify_annoy_jni_AnnoyIndexImpl
  * Method:    cppCtor
  * Signature: (I)V
  */
-    JNIEXPORT void JNICALL Java_com_spotify_annoy_AnnoyIndexImpl_cppCtor
+    JNIEXPORT void JNICALL Java_com_spotify_annoy_jni_AnnoyIndexImpl_cppCtor
 (JNIEnv *env, jobject obj, jint jni_int)
 {
     annoy_index = new AnnoyIndex<jint, jfloat, Angular, Kiss64Random>(jni_int);
 }
 
 /*
- * Class:     com_spotify_annoy_AnnoyIndexImpl
+ * Class:     com_spotify_annoy_jni_AnnoyIndexImpl
  * Method:    cppSetSeed
  * Signature: (I)V
  */
-JNIEXPORT void JNICALL Java_com_spotify_annoy_AnnoyIndexImpl_cppSetSeed
+JNIEXPORT void JNICALL Java_com_spotify_annoy_jni_AnnoyIndexImpl_cppSetSeed
   (JNIEnv *env, jobject obj, jint seed)
 {
     annoy_index->set_seed(seed);
 }
 
 /*
- * Class:     com_spotify_annoy_AnnoyIndexImpl
+ * Class:     com_spotify_annoy_jni_AnnoyIndexImpl
  * Method:    cppAddItem
  * Signature: (I[F)V
  */
-    JNIEXPORT void JNICALL Java_com_spotify_annoy_AnnoyIndexImpl_cppAddItem
+    JNIEXPORT void JNICALL Java_com_spotify_annoy_jni_AnnoyIndexImpl_cppAddItem
 (JNIEnv *env, jobject obj, jint item, jfloatArray jni_floats)
 {
     jfloat *inCArray = env->GetFloatArrayElements(jni_floats, NULL);
@@ -53,11 +53,11 @@ JNIEXPORT void JNICALL Java_com_spotify_annoy_AnnoyIndexImpl_cppSetSeed
 }
 
 /*
- * Class:     com_spotify_annoy_AnnoyIndexImpl
+ * Class:     com_spotify_annoy_jni_AnnoyIndexImpl
  * Method:    cppGetNearestByVector
  * Signature: ([FI)[I
  */
-    JNIEXPORT jintArray JNICALL Java_com_spotify_annoy_AnnoyIndexImpl_cppGetNearestByVector
+    JNIEXPORT jintArray JNICALL Java_com_spotify_annoy_jni_AnnoyIndexImpl_cppGetNearestByVector
 (JNIEnv *env, jobject obj, jfloatArray arr, jint n)
 {
     jfloat *inCArray = env->GetFloatArrayElements(arr, NULL);
@@ -69,11 +69,11 @@ JNIEXPORT void JNICALL Java_com_spotify_annoy_AnnoyIndexImpl_cppSetSeed
 }
 
 /*
- * Class:     com_spotify_annoy_AnnoyIndexImpl
+ * Class:     com_spotify_annoy_jni_AnnoyIndexImpl
  * Method:    cppGetNearestByVectorK
  * Signature: ([FII)[I
  */
-    JNIEXPORT jintArray JNICALL Java_com_spotify_annoy_AnnoyIndexImpl_cppGetNearestByVectorK
+    JNIEXPORT jintArray JNICALL Java_com_spotify_annoy_jni_AnnoyIndexImpl_cppGetNearestByVectorK
 (JNIEnv *env, jobject obj, jfloatArray arr, jint n, jint search_k)
 {
     jfloat *inCArray = env->GetFloatArrayElements(arr, NULL);
@@ -85,11 +85,11 @@ JNIEXPORT void JNICALL Java_com_spotify_annoy_AnnoyIndexImpl_cppSetSeed
 
 
 /*
- * Class:     com_spotify_annoy_AnnoyIndexImpl
+ * Class:     com_spotify_annoy_jni_AnnoyIndexImpl
  * Method:    cppGetNearestByItem
  * Signature: ([FI)[I
  */
-    JNIEXPORT jintArray JNICALL Java_com_spotify_annoy_AnnoyIndexImpl_cppGetNearestByItem
+    JNIEXPORT jintArray JNICALL Java_com_spotify_annoy_jni_AnnoyIndexImpl_cppGetNearestByItem
 (JNIEnv *env, jobject obj, jint item, jint n)
 {
     size_t search_k = (size_t)-1;
@@ -99,11 +99,11 @@ JNIEXPORT void JNICALL Java_com_spotify_annoy_AnnoyIndexImpl_cppSetSeed
 }
 
 /*
- * Class:     com_spotify_annoy_AnnoyIndexImpl
+ * Class:     com_spotify_annoy_jni_AnnoyIndexImpl
  * Method:    cppGetNearestByItemK
  * Signature: ([FII)[I
  */
-    JNIEXPORT jintArray JNICALL Java_com_spotify_annoy_AnnoyIndexImpl_cppGetNearestByItemK
+    JNIEXPORT jintArray JNICALL Java_com_spotify_annoy_jni_AnnoyIndexImpl_cppGetNearestByItemK
 (JNIEnv *env, jobject obj, jint item, jint n, jint search_k)
 {
     vector<jint> result;
@@ -112,22 +112,22 @@ JNIEXPORT void JNICALL Java_com_spotify_annoy_AnnoyIndexImpl_cppSetSeed
 }
 
 /*
- * Class:     com_spotify_annoy_AnnoyIndexImpl
+ * Class:     com_spotify_annoy_jni_AnnoyIndexImpl
  * Method:    cppBuild
  * Signature: (I)V
  */
-    JNIEXPORT void JNICALL Java_com_spotify_annoy_AnnoyIndexImpl_cppBuild 
+    JNIEXPORT void JNICALL Java_com_spotify_annoy_jni_AnnoyIndexImpl_cppBuild
 (JNIEnv *env, jobject obj, jint jni_int)
 {
     return annoy_index->build(jni_int);
 }
 
 /*
- * Class:     com_spotify_annoy_AnnoyIndexImpl
+ * Class:     com_spotify_annoy_jni_AnnoyIndexImpl
  * Method:    cppSave
  * Signature: (Ljava/lang/String;)V
  */
-    JNIEXPORT void JNICALL Java_com_spotify_annoy_AnnoyIndexImpl_cppSave
+    JNIEXPORT void JNICALL Java_com_spotify_annoy_jni_AnnoyIndexImpl_cppSave
 (JNIEnv *env, jobject obj, jstring jni_filename)
 {
     const char *filename= env->GetStringUTFChars(jni_filename, NULL);
@@ -138,11 +138,11 @@ JNIEXPORT void JNICALL Java_com_spotify_annoy_AnnoyIndexImpl_cppSetSeed
 }
 
 /*
- * Class:     com_spotify_annoy_AnnoyIndexImpl
+ * Class:     com_spotify_annoy_jni_AnnoyIndexImpl
  * Method:    cppLoad
  * Signature: (Ljava/lang/String;)V
  */
-    JNIEXPORT void JNICALL Java_com_spotify_annoy_AnnoyIndexImpl_cppLoad
+    JNIEXPORT void JNICALL Java_com_spotify_annoy_jni_AnnoyIndexImpl_cppLoad
 (JNIEnv *env, jobject obj, jstring jni_filename)
 {
     const char *filename= env->GetStringUTFChars(jni_filename, NULL);
@@ -153,11 +153,11 @@ JNIEXPORT void JNICALL Java_com_spotify_annoy_AnnoyIndexImpl_cppSetSeed
 }
 
 /*
- * Class:     com_spotify_annoy_AnnoyIndexImpl
+ * Class:     com_spotify_annoy_jni_AnnoyIndexImpl
  * Method:    cppGetItemVector
  * Signature: (I)[F
  */
-    JNIEXPORT jfloatArray JNICALL Java_com_spotify_annoy_AnnoyIndexImpl_cppGetItemVector
+    JNIEXPORT jfloatArray JNICALL Java_com_spotify_annoy_jni_AnnoyIndexImpl_cppGetItemVector
 (JNIEnv *env, jobject obj, jint i)
 {
     int _f = annoy_index->get_f();
@@ -170,22 +170,22 @@ JNIEXPORT void JNICALL Java_com_spotify_annoy_AnnoyIndexImpl_cppSetSeed
 }
 
 /*
- * Class:     com_spotify_annoy_AnnoyIndexImpl
+ * Class:     com_spotify_annoy_jni_AnnoyIndexImpl
  * Method:    cppGetDistance
  * Signature: (II)F
  */
-    JNIEXPORT jfloat JNICALL Java_com_spotify_annoy_AnnoyIndexImpl_cppGetDistance
+    JNIEXPORT jfloat JNICALL Java_com_spotify_annoy_jni_AnnoyIndexImpl_cppGetDistance
 (JNIEnv *env, jobject obj, jint jni_i, jint jni_j)
 {
     return (jfloat) annoy_index->get_distance(jni_i, jni_j);
 }
 
 /*
- * Class:     com_spotify_annoy_AnnoyIndexImpl
+ * Class:     com_spotify_annoy_jni_AnnoyIndexImpl
  * Method:    cppSize
  * Signature: ()I
  */
-    JNIEXPORT jint JNICALL Java_com_spotify_annoy_AnnoyIndexImpl_cppSize
+    JNIEXPORT jint JNICALL Java_com_spotify_annoy_jni_AnnoyIndexImpl_cppSize
 (JNIEnv *env, jobject obj)
 {
     return (jint) annoy_index->get_n_items();
