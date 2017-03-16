@@ -6,16 +6,14 @@ import static org.hamcrest.Matchers.not;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
 
-import com.spotify.annoy.jni.Annoy;
-import com.spotify.annoy.jni.AnnoyIndex;
 import java.io.File;
 import java.io.IOException;
+import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -103,9 +101,11 @@ public class AnnoyTest {
 
   @Test
   public void nearestNeighborsCountTest() {
-    Iterable<List<Float>> vectors = IntStream.range(0, 100)
-        .mapToObj(i -> Arrays.asList(1f * i, 2f * i, 3f * i))
-        .collect(Collectors.toList());
+
+    List<List<Float>> vectors = new ArrayList<>();
+    for (int i = 0; i < 100; ++i) {
+      vectors.add(Arrays.asList(1f * i, 2f * i, 3f * i));
+    }
 
     AnnoyIndex annoyIndex = Annoy.newIndex(3)
         .addAllItems(vectors)
@@ -130,10 +130,7 @@ public class AnnoyTest {
         .getSystemResource(String.format("%d_nns_of_%d.txt", nnsCnt, seed))
         .getFile();
 
-    List<Integer> expectedNns = Files.readAllLines(Paths.get(expectedNnsFile))
-        .stream()
-        .map(Integer::parseInt)
-        .collect(Collectors.toList());
+    List<Integer> expectedNns = parseFileLinesAsInts(expectedNnsFile);
 
     String annFile = ClassLoader.getSystemResource(String.format("test_%d.ann", dim)).getFile();
     List<Integer> actualNns = Annoy.loadIndex(annFile, dim)
@@ -152,15 +149,21 @@ public class AnnoyTest {
         .getSystemResource(String.format("%d_nns_of_%d_k%d.txt", nnsCnt, seed, k))
         .getFile();
 
-    List<Integer> expectedNns = Files.readAllLines(Paths.get(expectedNnsFile))
-        .stream()
-        .map(Integer::parseInt)
-        .collect(Collectors.toList());
+    List<Integer> expectedNns = parseFileLinesAsInts(expectedNnsFile);
 
     String annFile = ClassLoader.getSystemResource(String.format("test_%d.ann", dim)).getFile();
     List<Integer> actualNns = Annoy.loadIndex(annFile, dim)
         .getNearestByItem(seed, nnsCnt, k);
 
     assertThat(actualNns, is(expectedNns));
+  }
+
+  static List<Integer> parseFileLinesAsInts(String filename) throws IOException {
+    List<String> lines = Files.readAllLines(Paths.get(filename), Charset.defaultCharset());
+    List<Integer> ints = new ArrayList<>();
+    for (String line : lines) {
+      ints.add(Integer.parseInt(line));
+    }
+    return ints;
   }
 }

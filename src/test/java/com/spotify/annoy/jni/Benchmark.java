@@ -1,13 +1,8 @@
 package com.spotify.annoy.jni;
 
-import com.spotify.annoy.jni.Annoy;
-import com.spotify.annoy.jni.AnnoyIndex;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 import org.apache.commons.math3.stat.descriptive.DescriptiveStatistics;
 
 /**
@@ -27,10 +22,7 @@ public class Benchmark {
       throws IOException, InterruptedException {
     AnnoyIndex index = Annoy.loadIndex(annPath, dim);
 
-    List<Integer> queries = Files.readAllLines(Paths.get(queryFile))
-        .stream()
-        .map(Integer::parseInt)
-        .collect(Collectors.toList());
+    List<Integer> queries = AnnoyTest.parseFileLinesAsInts(queryFile);
 
     List<Long> queryTime = new ArrayList<>(queries.size());
 
@@ -45,7 +37,10 @@ public class Benchmark {
 
   private static void dispStats(List<Long> queryTime) {
     DescriptiveStatistics s = new DescriptiveStatistics();
-    queryTime.forEach(s::addValue);
+
+    for (Long t : queryTime) {
+      s.addValue(t);
+    }
 
     System.out.print(new StringBuilder()
         .append(String.format("Total time:  %.5fs\n", s.getSum() / 1.e9))
