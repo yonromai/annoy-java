@@ -2,6 +2,9 @@ package com.spotify.annoy.jni;
 
 import org.apache.commons.lang3.ArrayUtils;
 
+import java.io.FileNotFoundException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.List;
 
@@ -72,7 +75,10 @@ class AnnoyIndexImpl implements AnnoyIndex {
     return this;
   }
 
-  AnnoyIndexImpl load(String filename) {
+  AnnoyIndexImpl load(String filename) throws FileNotFoundException {
+    if (Files.notExists(Paths.get(filename))) {
+      throw new FileNotFoundException("Cannot find annoy index: " + filename);
+    }
     cppLoad(filename);
     return this;
   }

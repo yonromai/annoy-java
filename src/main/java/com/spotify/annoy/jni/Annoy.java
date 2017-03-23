@@ -1,10 +1,6 @@
 package com.spotify.annoy.jni;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.util.List;
 
 public class Annoy {
@@ -41,11 +37,11 @@ public class Annoy {
     return new Builder(dim);
   }
 
-  public static AnnoyIndex loadIndex(String filename, int dim) {
+  public static AnnoyIndex loadIndex(String filename, int dim) throws FileNotFoundException {
     return loadIndex(filename, dim, 42);
   }
 
-  public static AnnoyIndex loadIndex(String filename, int dim, int rngSeed) {
+  public static AnnoyIndex loadIndex(String filename, int dim, int rngSeed) throws FileNotFoundException {
     return new AnnoyIndexImpl(dim)
         .setSeed(rngSeed)
         .load(filename);

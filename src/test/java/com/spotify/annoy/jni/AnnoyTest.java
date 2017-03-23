@@ -7,6 +7,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
@@ -43,7 +44,7 @@ public class AnnoyTest {
   }
 
   @Test
-  public void fileTest() {
+  public void fileTest() throws FileNotFoundException {
     String filename = String.format("./%d.annoy", System.currentTimeMillis());
     Annoy.newIndex(3)
         .addAllItems(allVecs)
@@ -119,6 +120,11 @@ public class AnnoyTest {
     assertThat(annoyIndex.getNearestByVector(queryVec, nNeighbors).size(), is(nNeighbors));
     assertThat(annoyIndex.getNearestByVector(queryVec, nNeighbors, 2 * nNeighbors).size(),
         is(nNeighbors));
+  }
+
+  @Test(expected = FileNotFoundException.class)
+  public void fileDoesNotExistTest() throws FileNotFoundException {
+    Annoy.loadIndex("FILE_DOES_NOT_EXIST", 42);
   }
 
   @Test
