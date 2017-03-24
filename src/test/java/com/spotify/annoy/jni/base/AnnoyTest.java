@@ -1,4 +1,4 @@
-package com.spotify.annoy.jni;
+package com.spotify.annoy.jni.base;
 
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
@@ -15,6 +15,9 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
+import com.spotify.annoy.jni.base.Annoy;
+import com.spotify.annoy.jni.base.AnnoyIndex;
 import org.junit.BeforeClass;
 import org.junit.Test;
 

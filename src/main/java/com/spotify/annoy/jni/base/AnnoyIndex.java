@@ -1,4 +1,4 @@
-package com.spotify.annoy.jni;
+package com.spotify.annoy.jni.base;
 
 import java.util.List;
 
