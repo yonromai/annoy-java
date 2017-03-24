@@ -56,28 +56,6 @@ class AnnoyStrIndexImpl implements AnnoyStrIndex {
         return annoyIndex.size();
     }
 
-    // Building logic
-
-    AnnoyStrIndexImpl addItem(List<Float> vector) {
-        return null;
-    }
-
-    AnnoyStrIndexImpl addAllItems(Iterable<List<Float>> vectors) {
-        return null;
-    }
-
-    AnnoyStrIndexImpl setSeed(int seed) {
-        return null;
-    }
-
-    AnnoyStrIndexImpl build(int nTrees) {
-        return null;
-    }
-
-    AnnoyStrIndexImpl load(String filename) {
-        return null;
-    }
-
     // utils
 
     private List<String> idToStr(List<Integer> ids) {

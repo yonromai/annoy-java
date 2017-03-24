@@ -8,7 +8,7 @@ public interface AnnoyStrIndexBuilder {
 
     AnnoyStrIndexBuilder addAllItems(Iterable<List<Float>> vectors);
 
-    AnnoyStrIndexBuilder setSeed(int seed);
+    AnnoyStrIndexBuilder setSeed(int seed); // FIXME: should be part of the Index interface?
 
     AnnoyStrIndex build(String filename);
 }

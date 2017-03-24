@@ -3,8 +3,7 @@ package com.spotify.annoy.jni.str;
 import java.util.List;
 
 class AnnoyStrIndexBuilderImpl implements AnnoyStrIndexBuilder {
-
-
+    
     static AnnoyStrIndex loadIndex(String filename) {
         return null;
     }
