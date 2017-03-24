@@ -1,49 +1,33 @@
 package com.spotify.annoy.jni.str;
 
+import com.spotify.annoy.jni.base.Annoy;
+import com.spotify.annoy.jni.base.AnnoyIndex;
+import com.spotify.sparkey.SparkeyReader;
+
 import java.io.FileNotFoundException;
-import java.util.List;
+import java.io.IOException;
 
 public class AnnoyStr {
 
-    public static class Builder {
-
-        private final AnnoyStrIndexImpl ann;
-
-        private Builder() {
-            ann = new AnnoyStrIndexImpl();
-        }
-
-        public AnnoyStr.Builder addItem(List<Float> vector) {
-            ann.addItem(vector);
-            return this;
-        }
-
-        public AnnoyStr.Builder addAllItems(Iterable<List<Float>> vectors) {
-            ann.addAllItems(vectors);
-            return this;
-        }
-
-        public AnnoyStr.Builder setSeed(int seed) {
-            ann.setSeed(seed);
-            return this;
-        }
-
-        public AnnoyStrIndex build(int nTrees) {
-            return ann.build(nTrees);
-        }
-    }
-
-    public static AnnoyStr.Builder newIndex() {
-        return new AnnoyStr.Builder();
+    public static AnnoyStrIndexBuilder newIndex() {
+        return new AnnoyStrIndexBuilderImpl();
     }
 
     public static AnnoyStrIndex loadIndex(String filename) throws FileNotFoundException {
-        return loadIndex(filename, 42);
+        return AnnoyStrIndexBuilderImpl.loadIndex(filename);
     }
 
     public static AnnoyStrIndex loadIndex(String filename, int rngSeed) throws FileNotFoundException {
-        return new AnnoyStrIndexImpl()
+
+        AnnoyIndex annoyIndex = null;
+        SparkeyReader idToStr = null;
+        SparkeyReader strToId = null;
+        return new AnnoyStrIndexImpl(annoyIndex, idToStr, strToId)
                 .setSeed(rngSeed)
                 .load(filename);
+    }
+
+    public static void installAnnoy() throws IOException, InterruptedException {
+        Annoy.install();
     }
 }

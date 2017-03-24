@@ -20,6 +20,4 @@ public interface AnnoyStrIndex {
     float getDistance(String i, String j);
 
     int size();
-
-    AnnoyStrIndex save(String filename);
 }
