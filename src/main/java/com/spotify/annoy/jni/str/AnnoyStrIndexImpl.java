@@ -62,7 +62,11 @@ class AnnoyStrIndexImpl implements AnnoyStrIndex {
         ArrayList<String> strs = new ArrayList<>(ids.size());
         for (Integer id : ids) {
             try {
-                strs.add(idToStrIndex.getAsString(id.toString()));
+                String s = id.toString();
+                if (s == null) {
+                    throw new IndexOutOfBoundsException("Key missing from Sparkey Index: " + id.toString());
+                }
+                strs.add(idToStrIndex.getAsString(s));
             } catch (IOException e) {
                 throw new RuntimeException("Shit, ", e);
             }
@@ -72,7 +76,11 @@ class AnnoyStrIndexImpl implements AnnoyStrIndex {
 
     private Integer strToId(String str) {
         try {
-            return Integer.valueOf(strToIdIndex.getAsString(str));
+            String s = strToIdIndex.getAsString(str);
+            if (s == null) {
+                throw new IndexOutOfBoundsException("Key missing from Sparkey Index: " + str);
+            }
+            return Integer.valueOf(s);
         } catch (IOException e) {
             throw new RuntimeException("Shit, ", e);
         }
