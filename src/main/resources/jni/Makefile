@@ -18,7 +18,7 @@ JAVAH     :=$(JAVA_HOME)/bin/javah
 
 CC        :=g++
 CFLAGS    :=-I. -I../annoy/src -lc -shared
-FASTFLAGS :=-O3 -march=native -ffast-math -fPIC
+FASTFLAGS :=-O3 -march=native -ffast-math -fPIC -m32
 SOBJ      :=libannoy.jnilib
 SOURCE    :=com_spotify_annoy_jni_AnnoyIndexImpl.cpp
 HEADER    :=com_spotify_annoy_jni_AnnoyIndexImpl.h
