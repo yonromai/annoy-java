@@ -1,7 +1,14 @@
 package com.spotify.annoy.jni;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.List;
+
+
 
 public class Annoy {
 
@@ -46,27 +53,19 @@ public class Annoy {
         .setSeed(rngSeed)
         .load(filename);
   }
-
-  static String LIB_PATH = "java.library.path";
-  static String ANNOY_LIB_NAME = "/libannoy.jnilib";
-
+  final static String LIB_PATH = "java.library.path";
+  static String ANNOY_LIB_NAME = "/native/Mac/x86_64/libannoy.jnilib";
   // Enable to install annoy on the fly, :'(
   public static void install() throws IOException, InterruptedException {
+    if (!System.getProperty("os.name").equals("Mac OS X")) {
+      ANNOY_LIB_NAME = "/native/Linux/x86_64/libannoy.so";
+    }
     String annoyLibPath = System.getProperty(LIB_PATH) + ANNOY_LIB_NAME;
     if (new File(annoyLibPath).exists()) {
       return; // Already installed
     }
     verifyInstall();
-    Runtime rt = Runtime.getRuntime();
     File jniDir = new File(ClassLoader.getSystemResource("jni").getFile());
-    Process pr = rt.exec("make", null, jniDir);
-    int retCode = pr.waitFor();
-    if (retCode != 0) {
-      System.out.println("ret code: " + retCode);
-      printInputStream(pr.getInputStream());
-      printInputStream(pr.getErrorStream());
-      throw new RuntimeException("making annoy failed.");
-    }
     System.setProperty(LIB_PATH, jniDir.getAbsolutePath());
   }
 
