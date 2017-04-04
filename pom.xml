@@ -3,9 +3,23 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <groupId>com.spotify</groupId>
+
+    <parent>
+        <groupId>com.spotify</groupId>
+        <artifactId>foss-root</artifactId>
+        <version>6</version>
+    </parent>
+
     <artifactId>annoy-java</artifactId>
     <version>0.3.0-SNAPSHOT</version>
+
+    <licenses>
+        <license>
+            <name>The Apache Software License, Version 2.0</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -36,6 +50,13 @@
             </properties>
         </profile>
     </profiles>
+
+    <scm>
+        <url>https://github.com/yonromai/annoy-java</url>
+        <connection>scm:git:git@github.com:yonromai/annoy-java.git</connection>
+        <developerConnection>scm:git:git@github.com:yonromai/annoy-java.git</developerConnection>
+        <tag>HEAD</tag>
+    </scm>
 
     <dependencies>
         <dependency>
@@ -102,6 +123,15 @@
                     <source>1.7</source>
                     <target>1.7</target>
                 </configuration>
+            </plugin>
+            <plugin>
+                <artifactId>maven-checkstyle-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <artifactId>maven-enforcer-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <artifactId>maven-failsafe-plugin</artifactId>
             </plugin>
         </plugins>
     </build>
