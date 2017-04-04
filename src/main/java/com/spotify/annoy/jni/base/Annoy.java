@@ -37,8 +37,8 @@ public class Annoy {
       ann = new AnnoyIndexImpl(dim);
     }
 
-    public Builder addItem(int i, List<Float> vector) {
-      ann.addItem(i, vector);
+    public Builder addItem(int item, List<Float> vector) {
+      ann.addItem(item, vector);
       return this;
     }
 
@@ -52,8 +52,8 @@ public class Annoy {
       return this;
     }
 
-    public AnnoyIndex build(int nTrees) {
-      return ann.build(nTrees);
+    public AnnoyIndex build(int nbTrees) {
+      return ann.build(nbTrees);
     }
   }
 

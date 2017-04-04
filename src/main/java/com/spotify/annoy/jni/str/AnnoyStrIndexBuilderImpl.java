@@ -34,9 +34,9 @@ import java.util.List;
 class AnnoyStrIndexBuilderImpl implements AnnoyStrIndexBuilder {
 
   // TODO: move to conf
-  private final static String annoyIndexFilename = "annoy.tree";
-  private final static String idToStrIndexFilename = "idToStrIndex";
-  private final static String strToIdIndexFilename = "strToIdIndex";
+  private static final String annoyIndexFilename = "annoy.tree";
+  private static final String idToStrIndexFilename = "idToStrIndex";
+  private static final String strToIdIndexFilename = "strToIdIndex";
 
   // Building logic
   private final String dirName;
@@ -76,15 +76,15 @@ class AnnoyStrIndexBuilderImpl implements AnnoyStrIndexBuilder {
   }
 
   @Override
-  public AnnoyStrIndex build(int nTrees) throws IOException {
-    Path annoyPath = Paths.get(dirName, annoyIndexFilename);
-    AnnoyIndex annoyIndex = annoyBuilder.build(nTrees).save(annoyPath.toString());
-
+  public AnnoyStrIndex build(int nbTrees) throws IOException {
     idToStrIndexWriter.writeHash();
     idToStrIndexWriter.close();
     strToIdIndexWriter.writeHash();
     strToIdIndexWriter.close();
 
+    Path annoyPath = Paths.get(dirName, annoyIndexFilename);
+    AnnoyIndex annoyIndex = annoyBuilder.build(nbTrees).save(annoyPath.toString());
+    
     return new AnnoyStrIndexImpl(annoyIndex,
         Sparkey.open(getIdToStrIndexPath()),
         Sparkey.open(getStrToIdIndexPath()));

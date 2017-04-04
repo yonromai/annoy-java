@@ -41,23 +41,23 @@ class AnnoyStrIndexImpl implements AnnoyStrIndex {
   }
 
   @Override
-  public List<String> getNearestByVector(List<Float> vector, int n) {
-    return idToStr(annoyIndex.getNearestByVector(vector, n));
+  public List<String> getNearestByVector(List<Float> vector, int nbNeighbors) {
+    return idToStr(annoyIndex.getNearestByVector(vector, nbNeighbors));
   }
 
   @Override
-  public List<String> getNearestByVector(List<Float> vector, int n, int searchK) {
-    return idToStr(annoyIndex.getNearestByVector(vector, n, searchK));
+  public List<String> getNearestByVector(List<Float> vector, int nbNeighbors, int searchK) {
+    return idToStr(annoyIndex.getNearestByVector(vector, nbNeighbors, searchK));
   }
 
   @Override
-  public List<String> getNearestByItem(String item, int n) {
-    return idToStr(annoyIndex.getNearestByItem(strToId(item), n));
+  public List<String> getNearestByItem(String item, int nbNeighbors) {
+    return idToStr(annoyIndex.getNearestByItem(strToId(item), nbNeighbors));
   }
 
   @Override
-  public List<String> getNearestByItem(String item, int n, int searchK) {
-    return idToStr(annoyIndex.getNearestByItem(strToId(item), n, searchK));
+  public List<String> getNearestByItem(String item, int nbNeighbors, int searchK) {
+    return idToStr(annoyIndex.getNearestByItem(strToId(item), nbNeighbors, searchK));
   }
 
   @Override
@@ -66,8 +66,8 @@ class AnnoyStrIndexImpl implements AnnoyStrIndex {
   }
 
   @Override
-  public float getDistance(String i, String j) {
-    return annoyIndex.getDistance(strToId(i), strToId(j));
+  public float getDistance(String itemA, String itemB) {
+    return annoyIndex.getDistance(strToId(itemA), strToId(itemB));
   }
 
   @Override
@@ -81,11 +81,11 @@ class AnnoyStrIndexImpl implements AnnoyStrIndex {
     ArrayList<String> strs = new ArrayList<>(ids.size());
     for (Integer id : ids) {
       try {
-        String s = id.toString();
-        if (s == null) {
+        String str = id.toString();
+        if (str == null) {
           throw new IndexOutOfBoundsException("Key missing from Sparkey Index: " + id.toString());
         }
-        strs.add(idToStrIndex.getAsString(s));
+        strs.add(idToStrIndex.getAsString(str));
       } catch (IOException e) {
         throw new RuntimeException("Shit, ", e);
       }
@@ -95,11 +95,11 @@ class AnnoyStrIndexImpl implements AnnoyStrIndex {
 
   private Integer strToId(String str) {
     try {
-      String s = strToIdIndex.getAsString(str);
-      if (s == null) {
+      String idx = strToIdIndex.getAsString(str);
+      if (idx == null) {
         throw new IndexOutOfBoundsException("Key missing from Sparkey Index: " + str);
       }
-      return Integer.valueOf(s);
+      return Integer.valueOf(idx);
     } catch (IOException e) {
       throw new RuntimeException("Shit, ", e);
     }

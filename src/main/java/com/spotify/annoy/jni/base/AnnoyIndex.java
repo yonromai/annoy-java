@@ -28,17 +28,17 @@ import java.util.List;
  */
 public interface AnnoyIndex {
 
-  List<Integer> getNearestByVector(List<Float> vector, int n);
+  List<Integer> getNearestByVector(List<Float> vector, int nbNeighbors);
 
-  List<Integer> getNearestByVector(List<Float> vector, int n, int searchK);
+  List<Integer> getNearestByVector(List<Float> vector, int nbNeighbors, int searchK);
 
-  List<Integer> getNearestByItem(int item, int n);
+  List<Integer> getNearestByItem(int item, int nbNeighbors);
 
-  List<Integer> getNearestByItem(int item, int n, int searchK);
+  List<Integer> getNearestByItem(int item, int nbNeighbors, int searchK);
 
-  List<Float> getItemVector(int i);
+  List<Float> getItemVector(int item);
 
-  float getDistance(int i, int j);
+  float getDistance(int itemA, int itemB);
 
   int size();
 

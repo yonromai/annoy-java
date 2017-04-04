@@ -25,9 +25,9 @@ import java.util.List;
 
 public interface AnnoyStrIndexBuilder {
 
-    AnnoyStrIndexBuilder addItem(String key, List<Float> vector) throws IOException;
+  AnnoyStrIndexBuilder addItem(String key, List<Float> vector) throws IOException;
 
-    AnnoyStrIndexBuilder setSeed(int seed); // FIXME: should be part of the Index interface?
+  AnnoyStrIndexBuilder setSeed(int seed); // FIXME: should be part of the Index interface?
 
-    AnnoyStrIndex build(int nTrees) throws IOException;
+  AnnoyStrIndex build(int nbTrees) throws IOException;
 }
