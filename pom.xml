@@ -126,6 +126,10 @@
             </plugin>
             <plugin>
                 <artifactId>maven-checkstyle-plugin</artifactId>
+                <configuration>
+                    <failOnViolation>true</failOnViolation>
+                    <violationSeverity>warning</violationSeverity>
+                </configuration>
             </plugin>
             <plugin>
                 <artifactId>maven-enforcer-plugin</artifactId>
