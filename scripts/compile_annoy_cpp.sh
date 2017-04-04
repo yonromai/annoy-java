@@ -1,6 +1,5 @@
 #! /bin/bash
 
-cd target/classes/jni
 curl https://raw.githubusercontent.com/spotify/annoy/master/src/annoylib.h > annoylib.h
 curl https://raw.githubusercontent.com/spotify/annoy/master/src/kissrandom.h > kissrandom.h
 
