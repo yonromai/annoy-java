@@ -5,27 +5,27 @@
 
 UNAME_S := $(shell uname -s)
 ifeq ($(UNAME_S),Linux)
-	JAVA_HOME :=/usr/lib/jvm/default-java
-	JNIFLAGS  :=-I $(JAVA_HOME)/include -I ${JAVA_HOME}/include/linux
+    JAVA_HOME :=/usr/lib/jvm/default-java
+    JNIFLAGS  :=-I $(JAVA_HOME)/include -I ${JAVA_HOME}/include/linux
+    SOBJ      :=native/Linux/x86_64/libannoy.so
 endif
 ifeq ($(UNAME_S),Darwin)
     JAVA_HOME :=$(shell /usr/libexec/java_home)
     JNIFLAGS  :=-I $(JAVA_HOME)/include -I $(JAVA_HOME)/include/darwin
+    SOBJ      :=native/Mac/x86_64/libannoy.jnilib
 endif
 
 JAVAH     :=$(JAVA_HOME)/bin/javah
 
-
 CC        :=g++
 CFLAGS    :=-I. -I../annoy/src -lc -shared
 FASTFLAGS :=-O3 -march=native -ffast-math -fPIC
-SOBJ      :=libannoy.jnilib
 SOURCE    :=com_spotify_annoy_jni_base_AnnoyIndexImpl.cpp
 HEADER    :=com_spotify_annoy_jni_base_AnnoyIndexImpl.h
 
 all: annoy
 
 annoy:
-	$(JAVAH) -cp ../ -o ./$(HEADER) -jni com.spotify.annoy.jni.base.AnnoyIndexImpl
+	javah -cp ../../java -o ./$(HEADER) -jni com.spotify.annoy.jni.base.AnnoyIndexImpl
 	$(CC) $(CFLAGS) $(JNIFLAGS) $(FASTFLAGS) -o $(SOBJ) $(SOURCE)
 
