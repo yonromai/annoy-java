@@ -7,17 +7,17 @@ import java.util.List;
  */
 public interface AnnoyStrIndex {
 
-    List<String> getNearestByVector(List<Float> vector, int n);
+  List<String> getNearestByVector(List<Float> vector, int n);
 
-    List<String> getNearestByVector(List<Float> vector, int n, int searchK);
+  List<String> getNearestByVector(List<Float> vector, int n, int searchK);
 
-    List<String> getNearestByItem(String item, int n);
+  List<String> getNearestByItem(String item, int n);
 
-    List<String> getNearestByItem(String item, int n, int searchK);
+  List<String> getNearestByItem(String item, int n, int searchK);
 
-    List<Float> getItemVector(String item);
+  List<Float> getItemVector(String item);
 
-    float getDistance(String i, String j);
+  float getDistance(String i, String j);
 
-    int size();
+  int size();
 }
