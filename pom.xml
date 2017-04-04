@@ -51,7 +51,7 @@
                 <executions>
                     <execution><!-- Run our version calculation script -->
                         <id>default-cli</id>
-                        <phase>generate-sources</phase>
+                        <phase>process-classes</phase>
                         <goals>
                             <goal>exec</goal>
                         </goals>
