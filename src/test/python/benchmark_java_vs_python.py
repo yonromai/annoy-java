@@ -58,7 +58,7 @@ with open(query_file, 'w') as f:
 print ">>> Running Java benchmark..."
 nns_count = 200
 cmd = ('mvn exec:java -q' +
-       ' -Dexec.mainClass="com.spotify.annoy.jni.Benchmark"' +
+       ' -Dexec.mainClass="com.spotify.annoy.jni.base.Benchmark"' +
        ' -Djava.library.path="%s/target/classes/jni"' % wd +
        ' -Dexec.classpathScope="test"' +
        ' -Dexec.args="%s"' % ' '.join([tree_file, str(dim), query_file, str(nns_count)]))

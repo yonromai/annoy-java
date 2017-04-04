@@ -1,4 +1,4 @@
-package com.spotify.annoy.jni;
+package com.spotify.annoy.jni.base;
 
 import org.apache.commons.lang3.ArrayUtils;
 

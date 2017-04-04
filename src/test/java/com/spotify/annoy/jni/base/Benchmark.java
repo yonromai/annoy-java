@@ -1,8 +1,9 @@
-package com.spotify.annoy.jni;
+package com.spotify.annoy.jni.base;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
 import org.apache.commons.math3.stat.descriptive.DescriptiveStatistics;
 
 /**
