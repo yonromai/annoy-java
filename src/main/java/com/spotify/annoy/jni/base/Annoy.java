@@ -1,6 +1,10 @@
 package com.spotify.annoy.jni.base;
 
 import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.List;
 
 public class Annoy {
@@ -46,5 +50,20 @@ public class Annoy {
     return new AnnoyIndexImpl(dim)
         .setSeed(rngSeed)
         .load(filename);
+  }
+
+  static final String ANNOY_LIB_PATH = extractAnnoyBinaries();
+
+  private static String extractAnnoyBinaries() {
+    InputStream annoy = AnnoyIndexImpl.class.
+        getResourceAsStream("/jni/" + System.mapLibraryName("annoy"));
+    try {
+      Path tempAnnoy = Files.createTempDirectory("").resolve(System.mapLibraryName("annoy"));
+      Files.copy(annoy, tempAnnoy);
+      tempAnnoy.toFile().deleteOnExit();
+      return tempAnnoy.toString();
+    } catch (IOException e) {
+      throw new RuntimeException(e);
+    }
   }
 }

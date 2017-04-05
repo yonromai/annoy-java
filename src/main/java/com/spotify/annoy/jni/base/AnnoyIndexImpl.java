@@ -51,22 +51,9 @@ class AnnoyIndexImpl implements AnnoyIndex {
 
   // Construction
 
-  private String extractAnnoyBinaries() {
-    InputStream annoy = AnnoyIndexImpl.class.
-        getResourceAsStream("/jni/" + System.mapLibraryName("annoy"));
-    try {
-      Path tempAnnoy = Files.createTempDirectory("").resolve(System.mapLibraryName("annoy"));
-      Files.copy(annoy, tempAnnoy);
-      tempAnnoy.toFile().deleteOnExit();
-      return tempAnnoy.toString();
-    } catch (IOException e) {
-      throw new RuntimeException(e);
-    }
-  }
-
   AnnoyIndexImpl(int dim) {
     this.dim = dim;
-    System.load(extractAnnoyBinaries());
+    System.load(Annoy.ANNOY_LIB_PATH);
     cppCtor(dim);
   }
 
