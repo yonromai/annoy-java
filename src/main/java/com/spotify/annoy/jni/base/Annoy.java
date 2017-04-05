@@ -1,3 +1,23 @@
+/*
+ * -\-\-
+ * annoy-java
+ * --
+ * Copyright (C) 2017 Spotify AB
+ * --
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ * -/-/-
+ */
+
 package com.spotify.annoy.jni.base;
 
 import java.io.FileNotFoundException;
@@ -17,8 +37,8 @@ public class Annoy {
       ann = new AnnoyIndexImpl(dim);
     }
 
-    public Builder addItem(int i, List<Float> vector) {
-      ann.addItem(i, vector);
+    public Builder addItem(int item, List<Float> vector) {
+      ann.addItem(item, vector);
       return this;
     }
 
@@ -32,8 +52,8 @@ public class Annoy {
       return this;
     }
 
-    public AnnoyIndex build(int nTrees) {
-      return ann.build(nTrees);
+    public AnnoyIndex build(int nbTrees) {
+      return ann.build(nbTrees);
     }
   }
 
@@ -55,8 +75,8 @@ public class Annoy {
   static final String ANNOY_LIB_PATH = extractAnnoyBinaries();
 
   private static String extractAnnoyBinaries() {
-    InputStream annoy = AnnoyIndexImpl.class.
-        getResourceAsStream("/jni/" + System.mapLibraryName("annoy"));
+    InputStream annoy = AnnoyIndexImpl.class
+        .getResourceAsStream("/jni/" + System.mapLibraryName("annoy"));
     try {
       Path tempAnnoy = Files.createTempDirectory("").resolve(System.mapLibraryName("annoy"));
       Files.copy(annoy, tempAnnoy);
