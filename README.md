@@ -7,7 +7,7 @@ Java JNI wrapper around [annoy (C++)](https://github.com/spotify/annoy).
 <dependency>
     <groupId>com.spotify</groupId>
     <artifactId>annoy-java</artifactId>
-    <version>0.3.0-SNAPSHOT</version>
+    <version>0.3.1-SNAPSHOT</version>
 </dependency>
 ```
 At the moment, the jar is only published on Spotify's internal Artifactory.
@@ -30,7 +30,7 @@ AnnoyIndex annoyIndex = Annoy.loadIndex(filename, 3);
 
 annoyIndex.getNearestByItem(1, 42);
 ```
-For more examples takes a looks at the unit tests. 
+For more examples takes a looks at the unit tests.
 
 ## Run python vs. java benchmark
 ```
