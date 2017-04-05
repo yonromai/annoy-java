@@ -58,7 +58,7 @@ public class AnnoyTest {
 
   @Test
   public void fileTest() throws FileNotFoundException {
-    String filename = String.format("./%d.annoy", System.currentTimeMillis());
+    String filename = String.format("./dummy.annoy");
     Annoy.newIndex(3)
         .addAllItems(allVecs)
         .build(2)
