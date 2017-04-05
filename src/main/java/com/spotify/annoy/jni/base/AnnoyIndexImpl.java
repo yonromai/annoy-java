@@ -68,10 +68,10 @@ class AnnoyIndexImpl implements AnnoyIndex {
 
   // Construction
 
-  AnnoyIndexImpl(int dim) {
+  AnnoyIndexImpl(int dim, Annoy.Metric angular) {
     this.dim = dim;
     System.load(Annoy.ANNOY_LIB_PATH);
-    cppCtor(dim);
+    cppCtor(dim, angular.name().toLowerCase().charAt(0));
   }
 
   AnnoyIndexImpl addItem(int item, List<Float> vector) {
@@ -128,7 +128,7 @@ class AnnoyIndexImpl implements AnnoyIndex {
 
   // Native cpp  methods
 
-  private native void cppCtor(int dim);
+  private native void cppCtor(int dim, int metric);
 
   private native void cppAddItem(int item, float[] vector);
 

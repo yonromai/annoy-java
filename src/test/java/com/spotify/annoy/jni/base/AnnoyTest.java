@@ -43,7 +43,7 @@ public class AnnoyTest {
   private static final List<Float> v1 = Arrays.asList(3f, 4f, 5f);
   private static final List<Float> v2 = Arrays.asList(6f, 7f, 8f);
   private static final List<List<Float>> allVecs = Arrays.asList(v0, v1, v2);
-  private static final float EPS = 0.0000001f;
+  private static final float EPS = 0.00001f;
 
   @Test
   public void basicTest() {
@@ -72,7 +72,7 @@ public class AnnoyTest {
   }
 
   @Test
-  public void distanceTest() {
+  public void angularDistanceTest() {
     AnnoyIndex annoyIndex = Annoy.newIndex(3)
         .addAllItems(allVecs)
         .build(2);
@@ -81,6 +81,17 @@ public class AnnoyTest {
     float expectedCosDistance = 0.47866955f;
 
     assertEquals(annoyIndex.getDistance(0, 1), expectedCosDistance, EPS);
+  }
+
+  @Test
+  public void euclideanDistanceTest() {
+    AnnoyIndex annoyIndex = Annoy.newIndex(3, Annoy.Metric.EUCLIDEAN)
+        .addAllItems(allVecs)
+        .build(2);
+
+    float expectedEuclideanDistance = 5.19615f;
+
+    assertEquals(annoyIndex.getDistance(0, 1), expectedEuclideanDistance, EPS);
   }
 
 

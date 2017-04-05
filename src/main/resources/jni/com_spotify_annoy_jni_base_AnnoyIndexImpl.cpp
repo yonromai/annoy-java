@@ -6,7 +6,8 @@
 
 namespace
 {
-    static AnnoyIndex<jint, jfloat, Angular, Kiss64Random>* annoy_index;
+    static AnnoyIndexInterface<jint, jfloat>* annoy_index;
+    static jint f;
 
     inline jintArray vec_to_jintArray(JNIEnv *env, const vector<jint> &vec)
     {
@@ -23,9 +24,17 @@ namespace
  * Signature: (I)V
  */
     JNIEXPORT void JNICALL Java_com_spotify_annoy_jni_base_AnnoyIndexImpl_cppCtor
-(JNIEnv *env, jobject obj, jint jni_int)
+(JNIEnv *env, jobject obj, jint jni_int, jint metric)
 {
-    annoy_index = new AnnoyIndex<jint, jfloat, Angular, Kiss64Random>(jni_int);
+    f = jni_int;
+    switch(metric) {
+    case 'a':
+        annoy_index = new AnnoyIndex<jint, jfloat, Angular, Kiss64Random>(jni_int);
+        break;
+    case 'e':
+        annoy_index = new AnnoyIndex<jint, jfloat, Euclidean, Kiss64Random>(jni_int);
+        break;
+    }
 }
 
 /*
@@ -160,8 +169,7 @@ JNIEXPORT void JNICALL Java_com_spotify_annoy_jni_base_AnnoyIndexImpl_cppSetSeed
     JNIEXPORT jfloatArray JNICALL Java_com_spotify_annoy_jni_base_AnnoyIndexImpl_cppGetItemVector
 (JNIEnv *env, jobject obj, jint i)
 {
-    int _f = annoy_index->get_f();
-    vector<jfloat> vec(_f);
+    vector<jfloat> vec(f);
     annoy_index->get_item(i, &vec[0]);
     jfloatArray outJNIArray = env->NewFloatArray(vec.size());
     if (NULL == outJNIArray) return NULL;

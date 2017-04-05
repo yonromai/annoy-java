@@ -53,9 +53,9 @@ class AnnoyStrIndexBuilderImpl implements AnnoyStrIndexBuilder {
     return Paths.get(dirName, strToIdIndexFilename).toFile();
   }
 
-  AnnoyStrIndexBuilderImpl(String dirName, int dim) throws IOException {
+  AnnoyStrIndexBuilderImpl(String dirName, int dim, Annoy.Metric metric) throws IOException {
     this.dirName = dirName;
-    annoyBuilder = Annoy.newIndex(dim);
+    annoyBuilder = Annoy.newIndex(dim, metric);
     idToStrIndexWriter = Sparkey.createNew(getIdToStrIndexPath());
     strToIdIndexWriter = Sparkey.createNew(getStrToIdIndexPath());
   }
@@ -93,8 +93,12 @@ class AnnoyStrIndexBuilderImpl implements AnnoyStrIndexBuilder {
   // Loading logic
 
   static AnnoyStrIndex loadIndex(String dirName, int dim) throws IOException {
+    return loadIndex(dirName, dim, Annoy.Metric.ANGULAR);
+  }
+
+  static AnnoyStrIndex loadIndex(String dirName, int dim, Annoy.Metric metric) throws IOException {
     Path annoyPath = Paths.get(dirName, annoyIndexFilename);
-    AnnoyIndex annoyIndex = Annoy.loadIndex(annoyPath.toString(), dim);
+    AnnoyIndex annoyIndex = Annoy.loadIndex(annoyPath.toString(), dim, metric);
 
     Path idToStrIndexPath = Paths.get(dirName, idToStrIndexFilename);
     SparkeyReader idToStrIndex = Sparkey.open(idToStrIndexPath.toFile());

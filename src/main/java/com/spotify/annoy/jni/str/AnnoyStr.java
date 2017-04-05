@@ -20,15 +20,28 @@
 
 package com.spotify.annoy.jni.str;
 
+import com.spotify.annoy.jni.base.Annoy;
 import java.io.IOException;
 
 public class AnnoyStr {
 
   public static AnnoyStrIndexBuilder newIndex(String dirName, int dim) throws IOException {
-    return new AnnoyStrIndexBuilderImpl(dirName, dim);
+    return newIndex(dirName, dim, Annoy.Metric.ANGULAR);
+  }
+
+  public static AnnoyStrIndexBuilder newIndex(String dirName,
+                                              int dim,
+                                              Annoy.Metric metric) throws IOException {
+    return new AnnoyStrIndexBuilderImpl(dirName, dim, metric);
   }
 
   public static AnnoyStrIndex loadIndex(String dirName, int dim) throws IOException {
-    return AnnoyStrIndexBuilderImpl.loadIndex(dirName, dim);
+    return loadIndex(dirName, dim, Annoy.Metric.ANGULAR);
+  }
+
+  public static AnnoyStrIndex loadIndex(String dirName,
+                                        int dim,
+                                        Annoy.Metric metric) throws IOException {
+    return AnnoyStrIndexBuilderImpl.loadIndex(dirName, dim, metric);
   }
 }

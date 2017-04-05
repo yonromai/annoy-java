@@ -29,12 +29,17 @@ import java.util.List;
 
 public class Annoy {
 
+  public enum Metric {
+    ANGULAR,
+    EUCLIDEAN
+  }
+
   public static class Builder {
 
     private final AnnoyIndexImpl ann;
 
-    private Builder(int dim) {
-      ann = new AnnoyIndexImpl(dim);
+    private Builder(int dim, Metric angular) {
+      ann = new AnnoyIndexImpl(dim, angular);
     }
 
     public Builder addItem(int item, List<Float> vector) {
@@ -57,17 +62,26 @@ public class Annoy {
     }
   }
 
+  public static Builder newIndex(int dim, Metric metric) {
+    return new Builder(dim, metric);
+  }
+
   public static Builder newIndex(int dim) {
-    return new Builder(dim);
+    return new Builder(dim, Metric.ANGULAR);
   }
 
   public static AnnoyIndex loadIndex(String filename, int dim) throws FileNotFoundException {
-    return loadIndex(filename, dim, 42);
+    return loadIndex(filename, dim, Metric.ANGULAR, 42);
   }
 
-  public static AnnoyIndex loadIndex(String filename, int dim, int rngSeed)
+  public static AnnoyIndex loadIndex(String filename, int dim, Metric metric)
       throws FileNotFoundException {
-    return new AnnoyIndexImpl(dim)
+    return loadIndex(filename, dim, metric, 42);
+  }
+
+  public static AnnoyIndex loadIndex(String filename, int dim, Metric metric, int rngSeed)
+      throws FileNotFoundException {
+    return new AnnoyIndexImpl(dim, metric)
         .setSeed(rngSeed)
         .load(filename);
   }
