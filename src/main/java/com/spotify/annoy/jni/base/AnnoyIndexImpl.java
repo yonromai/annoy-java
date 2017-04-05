@@ -1,5 +1,6 @@
 package com.spotify.annoy.jni.base;
 
+import java.io.File;
 import org.apache.commons.lang3.ArrayUtils;
 
 import java.io.FileNotFoundException;
@@ -51,8 +52,10 @@ class AnnoyIndexImpl implements AnnoyIndex {
 
   AnnoyIndexImpl(int dim) {
     this.dim = dim;
-    final String dir = System.getProperty(Annoy.LIB_PATH);
-    System.load(dir + Annoy.ANNOY_LIB_NAME);
+
+    File jniDir = new File(ClassLoader.getSystemResource("jni").getFile());
+    System.load(jniDir + "/" + System.mapLibraryName("annoy"));
+
     cppCtor(dim);
   }
 

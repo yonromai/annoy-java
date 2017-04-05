@@ -1,6 +1,6 @@
 package com.spotify.annoy.jni.base;
 
-import java.io.*;
+import java.io.FileNotFoundException;
 import java.util.List;
 
 public class Annoy {
@@ -41,50 +41,10 @@ public class Annoy {
     return loadIndex(filename, dim, 42);
   }
 
-  public static AnnoyIndex loadIndex(String filename, int dim, int rngSeed) throws FileNotFoundException {
+  public static AnnoyIndex loadIndex(String filename, int dim, int rngSeed)
+      throws FileNotFoundException {
     return new AnnoyIndexImpl(dim)
         .setSeed(rngSeed)
         .load(filename);
-  }
-
-  static String LIB_PATH = "java.library.path";
-  static String ANNOY_LIB_NAME = "/libannoy.jnilib";
-
-  // Enable to install annoy on the fly, :'(
-  public static void install() throws IOException, InterruptedException {
-    String annoyLibPath = System.getProperty(LIB_PATH) + ANNOY_LIB_NAME;
-    if (new File(annoyLibPath).exists()) {
-      return; // Already installed
-    }
-    verifyInstall();
-    Runtime rt = Runtime.getRuntime();
-    File jniDir = new File(ClassLoader.getSystemResource("jni").getFile());
-    Process pr = rt.exec("make", null, jniDir);
-    int retCode = pr.waitFor();
-    if (retCode != 0) {
-      System.out.println("ret code: " + retCode);
-      printInputStream(pr.getInputStream());
-      printInputStream(pr.getErrorStream());
-      throw new RuntimeException("making annoy failed.");
-    }
-    System.setProperty(LIB_PATH, jniDir.getAbsolutePath());
-  }
-
-  // FIXME: add proper logging
-  private static void printInputStream(InputStream inputStream) throws IOException {
-    InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
-    BufferedReader bufferReader = new BufferedReader(inputStreamReader);
-    while (true) {
-      String line = bufferReader.readLine();
-      if (line != null) {
-        System.out.println(line);
-      } else {
-        break;
-      }
-    }
-  }
-
-  private static void verifyInstall() {
-    // TODO: verify g++ and make are installed
   }
 }

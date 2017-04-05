@@ -13,8 +13,4 @@ public class AnnoyStr {
     public static AnnoyStrIndex loadIndex(String dirName, int dim) throws IOException {
         return AnnoyStrIndexBuilderImpl.loadIndex(dirName, dim);
     }
-
-    public static void installAnnoy() throws IOException, InterruptedException {
-        Annoy.install();
-    }
 }
