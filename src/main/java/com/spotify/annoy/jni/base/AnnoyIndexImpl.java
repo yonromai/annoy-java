@@ -1,13 +1,14 @@
 package com.spotify.annoy.jni.base;
 
-import java.io.File;
-import org.apache.commons.lang3.ArrayUtils;
-
 import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.List;
+import org.apache.commons.lang3.ArrayUtils;
 
 class AnnoyIndexImpl implements AnnoyIndex {
 
@@ -50,12 +51,22 @@ class AnnoyIndexImpl implements AnnoyIndex {
 
   // Construction
 
+  private String extractAnnoyBinaries() {
+    InputStream annoy = AnnoyIndexImpl.class.
+        getResourceAsStream("/jni/" + System.mapLibraryName("annoy"));
+    try {
+      Path tempAnnoy = Files.createTempDirectory("").resolve(System.mapLibraryName("annoy"));
+      Files.copy(annoy, tempAnnoy);
+      tempAnnoy.toFile().deleteOnExit();
+      return tempAnnoy.toString();
+    } catch (IOException e) {
+      throw new RuntimeException(e);
+    }
+  }
+
   AnnoyIndexImpl(int dim) {
     this.dim = dim;
-
-    File jniDir = new File(ClassLoader.getSystemResource("jni").getFile());
-    System.load(jniDir + "/" + System.mapLibraryName("annoy"));
-
+    System.load(extractAnnoyBinaries());
     cppCtor(dim);
   }
 
