@@ -1,8 +1,10 @@
 #! /bin/bash
 
-curl https://raw.githubusercontent.com/spotify/annoy/master/src/annoylib.h > annoylib.h
-curl https://raw.githubusercontent.com/spotify/annoy/master/src/kissrandom.h > kissrandom.h
+if [ ! -f annoylib.* ]; then
+    echo "[INFO] Building annoy from sources"
+    curl -sS https://raw.githubusercontent.com/spotify/annoy/master/src/annoylib.h > annoylib.h
+    curl -sS https://raw.githubusercontent.com/spotify/annoy/master/src/kissrandom.h > kissrandom.h
+    make > /dev/null
+fi
 
-mkdir -p native/Mac/x86_64
-mkdir -p native/Linux/x86_64
-make
+

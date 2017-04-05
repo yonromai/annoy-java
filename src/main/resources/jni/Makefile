@@ -7,12 +7,12 @@ UNAME_S := $(shell uname -s)
 ifeq ($(UNAME_S),Linux)
     JAVA_HOME :=/usr/lib/jvm/default-java
     JNIFLAGS  :=-I $(JAVA_HOME)/include -I ${JAVA_HOME}/include/linux
-    SOBJ      :=native/Linux/x86_64/libannoy.so
+    SOBJ      :=libannoy.so
 endif
 ifeq ($(UNAME_S),Darwin)
     JAVA_HOME :=$(shell /usr/libexec/java_home)
     JNIFLAGS  :=-I $(JAVA_HOME)/include -I $(JAVA_HOME)/include/darwin
-    SOBJ      :=native/Mac/x86_64/libannoy.jnilib
+    SOBJ      :=libannoy.dylib
 endif
 
 JAVAH     :=$(JAVA_HOME)/bin/javah

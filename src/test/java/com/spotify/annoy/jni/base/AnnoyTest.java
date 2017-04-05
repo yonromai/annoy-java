@@ -15,10 +15,6 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
-import com.spotify.annoy.jni.base.Annoy;
-import com.spotify.annoy.jni.base.AnnoyIndex;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
 public class AnnoyTest {
@@ -28,12 +24,6 @@ public class AnnoyTest {
   private static final List<Float> v2 = Arrays.asList(6f, 7f, 8f);
   private static final List<List<Float>> allVecs = Arrays.asList(v0, v1, v2);
   private static final float EPS = 0.0000001f;
-
-
-  @BeforeClass
-  public static void installAnnoy() throws IOException, InterruptedException {
-    Annoy.install();
-  }
 
   @Test
   public void basicTest() {
