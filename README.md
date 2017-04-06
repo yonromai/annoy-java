@@ -30,7 +30,7 @@ AnnoyIndex annoyIndex = Annoy.loadIndex(filename, 3);
 
 annoyIndex.getNearestByItem(1, 42);
 ```
-For more examples takes a looks at the unit tests.
+For more examples, take a look at the unit tests.
 
 ## Run python vs. java benchmark
 ```
