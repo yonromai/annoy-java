@@ -6,8 +6,6 @@
 
 namespace
 {
-    static AnnoyIndexInterface<jint, jfloat>* annoy_index;
-    static jint f;
 
     inline jintArray vec_to_jintArray(JNIEnv *env, const vector<jint> &vec)
     {
@@ -16,25 +14,37 @@ namespace
 	env->SetIntArrayRegion(outJNIArray, 0 , vec.size(), &vec[0]);  // copy
 	return outJNIArray;
     }
+
+    class ANN {
+	public:
+	    jint f;
+	    AnnoyIndexInterface<jint, jfloat>* annoy_index;
+	    ANN(int f_, char metric):f(f_) {
+		switch(metric) {
+		    case 'a':
+			annoy_index = new AnnoyIndex<jint, jfloat, Angular, Kiss64Random>(f);
+			break;
+		    case 'e':
+			annoy_index = new AnnoyIndex<jint, jfloat, Euclidean, Kiss64Random>(f);
+			break;
+		}
+	    }
+	    ~ANN() {
+		delete annoy_index;
+	    }
+    };
 }
+
 
 /*
  * Class:     com_spotify_annoy_jni_base_AnnoyIndexImpl
  * Method:    cppCtor
  * Signature: (I)V
  */
-    JNIEXPORT void JNICALL Java_com_spotify_annoy_jni_base_AnnoyIndexImpl_cppCtor
+    JNIEXPORT jint JNICALL Java_com_spotify_annoy_jni_base_AnnoyIndexImpl_cppCtor
 (JNIEnv *env, jobject obj, jint jni_int, jint metric)
 {
-    f = jni_int;
-    switch(metric) {
-    case 'a':
-        annoy_index = new AnnoyIndex<jint, jfloat, Angular, Kiss64Random>(jni_int);
-        break;
-    case 'e':
-        annoy_index = new AnnoyIndex<jint, jfloat, Euclidean, Kiss64Random>(jni_int);
-        break;
-    }
+    return new ANN(jni_int, metric);
 }
 
 /*
@@ -42,8 +52,8 @@ namespace
  * Method:    cppSetSeed
  * Signature: (I)V
  */
-JNIEXPORT void JNICALL Java_com_spotify_annoy_jni_base_AnnoyIndexImpl_cppSetSeed
-  (JNIEnv *env, jobject obj, jint seed)
+    JNIEXPORT void JNICALL Java_com_spotify_annoy_jni_base_AnnoyIndexImpl_cppSetSeed
+(JNIEnv *env, jobject obj, jint seed)
 {
     annoy_index->set_seed(seed);
 }

@@ -26,6 +26,6 @@ HEADER    :=com_spotify_annoy_jni_base_AnnoyIndexImpl.h
 all: annoy
 
 annoy:
-	javah -cp .. -o ./$(HEADER) -jni com.spotify.annoy.jni.base.AnnoyIndexImpl
+#	javah -cp .. -o ./$(HEADER) -jni com.spotify.annoy.jni.base.AnnoyIndexImpl
 	$(CC) $(CFLAGS) $(JNIFLAGS) $(FASTFLAGS) -o $(SOBJ) $(SOURCE)
 
