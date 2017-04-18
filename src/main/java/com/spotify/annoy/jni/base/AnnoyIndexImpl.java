@@ -30,40 +30,49 @@ import org.apache.commons.lang3.ArrayUtils;
 class AnnoyIndexImpl implements AnnoyIndex {
 
   private final int dim;
+  // Stores the memory location of the tree in cpp that will be passed in
+  // This is how we share states between java and cpp
+  private final long cppPtr;
 
   public List<Integer> getNearestByVector(List<Float> vector, int nbNeighbors) {
     validateVecSize(vector);
-    return primitiveToBoxed(cppGetNearestByVector(boxedToPrimitive(vector), nbNeighbors));
+    return primitiveToBoxed(
+        cppGetNearestByVector(this.cppPtr, boxedToPrimitive(vector), nbNeighbors));
   }
 
   public List<Integer> getNearestByVector(List<Float> vector, int nbNeighbors, int searchK) {
     validateVecSize(vector);
-    return primitiveToBoxed(cppGetNearestByVectorK(boxedToPrimitive(vector), nbNeighbors, searchK));
+    return primitiveToBoxed(
+        cppGetNearestByVectorK(this.cppPtr, boxedToPrimitive(vector), nbNeighbors, searchK));
   }
 
   public List<Integer> getNearestByItem(int item, int nbNeighbors) {
-    return primitiveToBoxed(cppGetNearestByItem(item, nbNeighbors));
+    return primitiveToBoxed(cppGetNearestByItem(this.cppPtr, item, nbNeighbors));
   }
 
   public List<Integer> getNearestByItem(int item, int nbNeighbors, int searchK) {
-    return primitiveToBoxed(cppGetNearestByItemK(item, nbNeighbors, searchK));
+    return primitiveToBoxed(cppGetNearestByItemK(this.cppPtr, item, nbNeighbors, searchK));
   }
 
   public AnnoyIndex save(String filename) {
-    cppSave(filename);
+    cppSave(this.cppPtr, filename);
     return this;
   }
 
+  public void close() {
+    cppDtor(this.cppPtr);
+  }
+
   public List<Float> getItemVector(int item) {
-    return primitiveToBoxed(cppGetItemVector(item));
+    return primitiveToBoxed(cppGetItemVector(this.cppPtr, item));
   }
 
   public float getDistance(int itemA, int itemB) {
-    return cppGetDistance(itemA, itemB);
+    return cppGetDistance(this.cppPtr, itemA, itemB);
   }
 
   public int size() {
-    return cppSize();
+    return cppSize(this.cppPtr);
   }
 
   // Construction
@@ -71,12 +80,12 @@ class AnnoyIndexImpl implements AnnoyIndex {
   AnnoyIndexImpl(int dim, Annoy.Metric angular) {
     this.dim = dim;
     System.load(Annoy.ANNOY_LIB_PATH);
-    cppCtor(dim, angular.name().toLowerCase().charAt(0));
+    this.cppPtr = cppCtor(dim, angular.name().toLowerCase().charAt(0));
   }
 
   AnnoyIndexImpl addItem(int item, List<Float> vector) {
     validateVecSize(vector);
-    cppAddItem(item, boxedToPrimitive(vector));
+    cppAddItem(this.cppPtr, item, boxedToPrimitive(vector));
     return this;
   }
 
@@ -89,7 +98,7 @@ class AnnoyIndexImpl implements AnnoyIndex {
   }
 
   AnnoyIndexImpl build(int nbTrees) {
-    cppBuild(nbTrees);
+    cppBuild(this.cppPtr, nbTrees);
     return this;
   }
 
@@ -97,12 +106,12 @@ class AnnoyIndexImpl implements AnnoyIndex {
     if (Files.notExists(Paths.get(filename))) {
       throw new FileNotFoundException("Cannot find annoy index: " + filename);
     }
-    cppLoad(filename);
+    cppLoad(this.cppPtr, filename);
     return this;
   }
 
   AnnoyIndexImpl setSeed(int seed) {
-    cppSetSeed(seed);
+    cppSetSeed(this.cppPtr, seed);
     return this;
   }
 
@@ -128,29 +137,33 @@ class AnnoyIndexImpl implements AnnoyIndex {
 
   // Native cpp  methods
 
-  private native void cppCtor(int dim, int metric);
+  // returns the c++ memory index for the object
+  private native int cppCtor(int dim, int metric);
 
-  private native void cppAddItem(int item, float[] vector);
+  private native void cppDtor(long cppPtr);
 
-  private native int[] cppGetNearestByVector(float[] vector, int nbNeighbors);
+  private native void cppAddItem(long cppPtr, int item, float[] vector);
 
-  private native int[] cppGetNearestByVectorK(float[] vector, int nbNeighbors, int searchK);
+  private native int[] cppGetNearestByVector(long cppPtr, float[] vector, int nbNeighbors);
 
-  private native int[] cppGetNearestByItem(int item, int nbNeighbors);
+  private native int[] cppGetNearestByVectorK(long cppPtr, float[] vector, int nbNeighbors,
+                                              int searchK);
 
-  private native int[] cppGetNearestByItemK(int item, int nbNeighbors, int searchK);
+  private native int[] cppGetNearestByItem(long cppPtr, int item, int nbNeighbors);
 
-  private native void cppBuild(int nbTrees);
+  private native int[] cppGetNearestByItemK(long cppPtr, int item, int nbNeighbors, int searchK);
 
-  private native void cppSave(String filename);
+  private native void cppBuild(long cppPtr, int nbTrees);
 
-  private native void cppLoad(String filename);
+  private native void cppSave(long cppPtr, String filename);
 
-  private native float[] cppGetItemVector(int item);
+  private native void cppLoad(long cppPtr, String filename);
 
-  private native float cppGetDistance(int itemA, int itemB);
+  private native float[] cppGetItemVector(long cppPtr, int item);
 
-  private native int cppSize();
+  private native float cppGetDistance(long cppPtr, int itemA, int itemB);
 
-  private native void cppSetSeed(int seed);
+  private native int cppSize(long cppPtr);
+
+  private native void cppSetSeed(long cppPtr, int seed);
 }
