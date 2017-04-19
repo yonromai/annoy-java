@@ -138,7 +138,7 @@ class AnnoyIndexImpl implements AnnoyIndex {
   // Native cpp  methods
 
   // returns the c++ memory index for the object
-  private native int cppCtor(int dim, int metric);
+  private native long cppCtor(int dim, int metric);
 
   private native void cppDtor(long cppPtr);
 

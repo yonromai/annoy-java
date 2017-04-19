@@ -35,14 +35,14 @@ namespace
     };
 }
 
-    JNIEXPORT jint JNICALL Java_com_spotify_annoy_jni_base_AnnoyIndexImpl_cppCtor
-(JNIEnv *env, jobject obj, jlong cpp_ptr, jint jni_int, jint metric)
+    JNIEXPORT jlong JNICALL Java_com_spotify_annoy_jni_base_AnnoyIndexImpl_cppCtor
+(JNIEnv *env, jobject obj, jint jni_int, jint metric)
 {
     return (intptr_t) new ANN(jni_int, metric);
 }
 
     JNIEXPORT void JNICALL Java_com_spotify_annoy_jni_base_AnnoyIndexImpl_cppSetSeed
-(JNIEnv *env, jobject obj,  jlong cpp_ptr, jint seed)
+(JNIEnv *env, jobject obj, jlong cpp_ptr, jint seed)
 {
     ANN *ann = (ANN*) cpp_ptr;
     ann->annoy_index->set_seed(seed);
@@ -148,7 +148,7 @@ namespace
 
 
     JNIEXPORT jint JNICALL Java_com_spotify_annoy_jni_base_AnnoyIndexImpl_cppSize
-(JNIEnv *env, jlong cpp_ptr, jobject obj)
+(JNIEnv *env, jobject obj, jlong cpp_ptr)
 {
     ANN *ann = (ANN*) cpp_ptr;
     return (jint) ann->annoy_index->get_n_items();

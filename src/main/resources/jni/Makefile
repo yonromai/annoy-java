@@ -26,8 +26,6 @@ HEADER    :=com_spotify_annoy_jni_base_AnnoyIndexImpl.h
 all: annoy
 
 annoy:
-	javah -cp ../../java -o ./$(HEADER) -jni com.spotify.annoy.jni.base.AnnoyIndexImpl
-	curl -sSO https://raw.githubusercontent.com/spotify/annoy/master/src/annoylib.h
-	curl -sSO https://raw.githubusercontent.com/spotify/annoy/master/src/kissrandom.h
+	javah -cp .. -o ./$(HEADER) -jni com.spotify.annoy.jni.base.AnnoyIndexImpl
 	$(CC) $(CFLAGS) $(JNIFLAGS) $(FASTFLAGS) -o $(SOBJ) $(SOURCE)
 

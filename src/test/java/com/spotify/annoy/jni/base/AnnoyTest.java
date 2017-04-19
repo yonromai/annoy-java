@@ -94,7 +94,6 @@ public class AnnoyTest {
     assertEquals(annoyIndex.getDistance(0, 1), expectedEuclideanDistance, EPS);
   }
 
-
   @Test
   public void setSeedTest() {
     Annoy.newIndex(3)
