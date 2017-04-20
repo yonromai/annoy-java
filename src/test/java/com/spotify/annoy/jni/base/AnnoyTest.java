@@ -43,6 +43,7 @@ public class AnnoyTest {
   private static final List<Float> v1 = Arrays.asList(3f, 4f, 5f);
   private static final List<Float> v2 = Arrays.asList(6f, 7f, 8f);
   private static final List<List<Float>> allVecs = Arrays.asList(v0, v1, v2);
+  private static final List<List<Float>> twoVecs = Arrays.asList(v1, v2);
   private static final float EPS = 0.00001f;
 
   @Test
@@ -54,6 +55,24 @@ public class AnnoyTest {
     assertThat(annoyIndex.size(), is(3));
     assertThat(annoyIndex.getItemVector(1), equalTo(v1));
     assertThat(annoyIndex.getItemVector(0), not(v1));
+  }
+
+  @Test
+  public void multiTreeTest() {
+    AnnoyIndex annoyIndex1 = Annoy.newIndex(3)
+        .addAllItems(allVecs)
+        .build(2);
+    AnnoyIndex annoyIndex2 = Annoy.newIndex(3)
+        .addAllItems(twoVecs)
+        .build(2);
+
+    assertThat(annoyIndex1.size(), is(3));
+    assertThat(annoyIndex1.getItemVector(2), equalTo(v2));
+    assertThat(annoyIndex1.getItemVector(0), not(v1));
+
+    assertThat(annoyIndex2.size(), is(2));
+    assertThat(annoyIndex2.getItemVector(1), equalTo(v2));
+    assertThat(annoyIndex2.getItemVector(0), not(v2));
   }
 
   @Test
