@@ -20,14 +20,13 @@
 
 package com.spotify.annoy.jni.base;
 
-import java.io.Closeable;
 import java.util.List;
 
 /**
  * Annoy interface
  * Modeled after: https://github.com/spotify/annoy/blob/master/annoy/__init__.py, sorta
  */
-public interface AnnoyIndex extends Closeable {
+public interface AnnoyIndex extends AutoCloseable {
 
   List<Integer> getNearestByVector(List<Float> vector, int nbNeighbors);
 
