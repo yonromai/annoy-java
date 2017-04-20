@@ -37,42 +37,42 @@ class AnnoyIndexImpl implements AnnoyIndex {
   public List<Integer> getNearestByVector(List<Float> vector, int nbNeighbors) {
     validateVecSize(vector);
     return primitiveToBoxed(
-        cppGetNearestByVector(this.cppPtr, boxedToPrimitive(vector), nbNeighbors));
+        cppGetNearestByVector(cppPtr, boxedToPrimitive(vector), nbNeighbors));
   }
 
   public List<Integer> getNearestByVector(List<Float> vector, int nbNeighbors, int searchK) {
     validateVecSize(vector);
     return primitiveToBoxed(
-        cppGetNearestByVectorK(this.cppPtr, boxedToPrimitive(vector), nbNeighbors, searchK));
+        cppGetNearestByVectorK(cppPtr, boxedToPrimitive(vector), nbNeighbors, searchK));
   }
 
   public List<Integer> getNearestByItem(int item, int nbNeighbors) {
-    return primitiveToBoxed(cppGetNearestByItem(this.cppPtr, item, nbNeighbors));
+    return primitiveToBoxed(cppGetNearestByItem(cppPtr, item, nbNeighbors));
   }
 
   public List<Integer> getNearestByItem(int item, int nbNeighbors, int searchK) {
-    return primitiveToBoxed(cppGetNearestByItemK(this.cppPtr, item, nbNeighbors, searchK));
+    return primitiveToBoxed(cppGetNearestByItemK(cppPtr, item, nbNeighbors, searchK));
   }
 
   public AnnoyIndex save(String filename) {
-    cppSave(this.cppPtr, filename);
+    cppSave(cppPtr, filename);
     return this;
   }
 
   public void close() {
-    cppDtor(this.cppPtr);
+    cppDtor(cppPtr);
   }
 
   public List<Float> getItemVector(int item) {
-    return primitiveToBoxed(cppGetItemVector(this.cppPtr, item));
+    return primitiveToBoxed(cppGetItemVector(cppPtr, item));
   }
 
   public float getDistance(int itemA, int itemB) {
-    return cppGetDistance(this.cppPtr, itemA, itemB);
+    return cppGetDistance(cppPtr, itemA, itemB);
   }
 
   public int size() {
-    return cppSize(this.cppPtr);
+    return cppSize(cppPtr);
   }
 
   // Construction
@@ -85,7 +85,7 @@ class AnnoyIndexImpl implements AnnoyIndex {
 
   AnnoyIndexImpl addItem(int item, List<Float> vector) {
     validateVecSize(vector);
-    cppAddItem(this.cppPtr, item, boxedToPrimitive(vector));
+    cppAddItem(cppPtr, item, boxedToPrimitive(vector));
     return this;
   }
 
@@ -98,7 +98,7 @@ class AnnoyIndexImpl implements AnnoyIndex {
   }
 
   AnnoyIndexImpl build(int nbTrees) {
-    cppBuild(this.cppPtr, nbTrees);
+    cppBuild(cppPtr, nbTrees);
     return this;
   }
 
@@ -106,12 +106,12 @@ class AnnoyIndexImpl implements AnnoyIndex {
     if (Files.notExists(Paths.get(filename))) {
       throw new FileNotFoundException("Cannot find annoy index: " + filename);
     }
-    cppLoad(this.cppPtr, filename);
+    cppLoad(cppPtr, filename);
     return this;
   }
 
   AnnoyIndexImpl setSeed(int seed) {
-    cppSetSeed(this.cppPtr, seed);
+    cppSetSeed(cppPtr, seed);
     return this;
   }
 
