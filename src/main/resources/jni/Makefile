@@ -5,7 +5,7 @@
 
 UNAME_S := $(shell uname -s)
 ifeq ($(UNAME_S),Linux)
-    JAVA_HOME :=/usr/lib/jvm/java-8-oracle/
+    JAVA_HOME :=/usr/lib/jvm/default-java
     JNIFLAGS  :=-I $(JAVA_HOME)/include -I ${JAVA_HOME}/include/linux
     SOBJ      :=libannoy.so
 endif
