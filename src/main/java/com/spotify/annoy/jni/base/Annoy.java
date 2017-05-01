@@ -90,8 +90,7 @@ public class Annoy {
 
   private static String extractAnnoyBinaries() {
     final String libname = System.mapLibraryName("annoy");
-    InputStream annoy = AnnoyIndexImpl.class
-        .getResourceAsStream("/jni/" + libname);
+    final InputStream annoy = AnnoyIndexImpl.class.getResourceAsStream("/" + libname);
     try {
       Path tempAnnoy = Files.createTempDirectory("").resolve(libname);
       Files.copy(annoy, tempAnnoy);
