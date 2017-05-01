@@ -43,13 +43,13 @@ fi
 cp -r $JAVA_HOME/include ./include
 
 if [[ "$platform" == 'mac' ]]; then
-    cp -r $JAVA_HOME/include/darwin/ ./include/
+    cp -r $JAVA_HOME/include/darwin/* ./include/
 elif [[ "$platform" == 'linux' ]]; then
-    cp -r $JAVA_HOME/include/linux/ ./include/
+    cp -r $JAVA_HOME/include/linux/* ./include/
 fi
 
-cp -r $PROJECT_ROOT/native/ ./
-cp -r $PROJECT_ROOT/src/main/java/ ./
+cp -r $PROJECT_ROOT/native/* ./
+cp -r $PROJECT_ROOT/src/main/java/* ./
 
 echo "[INFO] Building jni headers..."
 javah -cp . -o ./com_spotify_annoy_jni_base_AnnoyIndexImpl.h -jni com.spotify.annoy.jni.base.AnnoyIndexImpl
