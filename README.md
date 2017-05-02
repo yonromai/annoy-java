@@ -1,5 +1,8 @@
 # annoy-java
 
+[![Build Status](https://img.shields.io/circleci/project/github/yonromai/annoy-java/master.svg)](https://circleci.com/gh/yonromai/annoy-java)
+
+
 Java JNI wrapper around [annoy (C++)](https://github.com/spotify/annoy).
 
 ## Adding to pom
