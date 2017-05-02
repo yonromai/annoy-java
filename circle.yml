@@ -4,4 +4,4 @@ machine:
 
   test:
     post:
-      - if mvn help:evaluate -Dexpression=project.version | grep '\[' | grep -q SNAPSHOT ; then mvn deploy; fi
+      - if mvn help:evaluate -Dexpression=project.version | grep '\[' | grep -q SNAPSHOT ; then mvn deploy -s settings.xml; fi

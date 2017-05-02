@@ -19,22 +19,10 @@ export SONATYPE_PASSWORD=bar
 ```
 (if you put them in your shell rc, don't check them in...)
 
-Then, you can add the following server config to your maven settings (`~/.m2/settings.xml`):
-```xml
-<settings>
-  <servers>
-    <server>
-      <id>ossrh</id>
-      <username>${env.SONATYPE_USERNAME}</username>
-      <password>${env.SONATYPE_PASSWORD}</password>
-    </server>
-  </servers>
-</settings>
-```
 This should enable you to push a snapshot to maven central:
 ```
 # deploy snapshot version
-mvn clean deploy
+mvn clean deploy -s settings.xml
 ```
 
 If you get:
