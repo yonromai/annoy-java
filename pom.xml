@@ -22,7 +22,7 @@
     </licenses>
 
     <properties>
-        <jar.finalName>${project.name}-${os.family}-${project.version}</jar.finalName>
+        <annoy.commit-hash>60797b2c96518407732c0b6f4284c83b1c2043ca</annoy.commit-hash>
         <jacoco.minimum-coverage>0.80</jacoco.minimum-coverage>
     </properties>
 
@@ -81,7 +81,7 @@
                         <configuration>
                             <executable>scripts/build_native.sh</executable>
                             <arguments>
-                                <argument>master</argument>
+                                <argument>${annoy.commit-hash}</argument>
                             </arguments>
                         </configuration>
                     </execution>
