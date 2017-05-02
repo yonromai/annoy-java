@@ -20,6 +20,8 @@
 
 package com.spotify.annoy.jni.base;
 
+import static com.google.common.base.Preconditions.checkState;
+
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
@@ -90,7 +92,8 @@ public class Annoy {
 
   private static String extractAnnoyBinaries() {
     final String libname = System.mapLibraryName("annoy");
-    final InputStream annoy = AnnoyIndexImpl.class.getResourceAsStream("/" + libname);
+    final String libPath = String.format("/%s/%s", platform(), libname);
+    final InputStream annoy = AnnoyIndexImpl.class.getResourceAsStream(libPath);
     try {
       Path tempAnnoy = Files.createTempDirectory("").resolve(libname);
       Files.copy(annoy, tempAnnoy);
@@ -99,5 +102,18 @@ public class Annoy {
     } catch (IOException e) {
       throw new RuntimeException(e);
     }
+  }
+
+  private static String platform() {
+    final String osArch = System.getProperty("os.arch");
+    checkState(osArch.contains("64"), "Annoy java only supports x64 arch at the moment");
+    final String osName = System.getProperty("os.name").toLowerCase();
+    if (osName.contains("mac")) {
+      return "mac-x64";
+    }
+    if (osName.contains("linux")) {
+      return "linux-x64";
+    }
+    throw new RuntimeException("Annoy-java only runs on Mac and Linux at the moment");
   }
 }

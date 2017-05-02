@@ -54,14 +54,19 @@ cp -r $PROJECT_ROOT/src/main/java/* ./
 echo "[INFO] Building jni headers..."
 javah -cp . -o ./com_spotify_annoy_jni_base_AnnoyIndexImpl.h -jni com.spotify.annoy.jni.base.AnnoyIndexImpl
 
-echo "[INFO] Compiling Annoy code..."
+
+
 if [[ "$platform" == 'mac' ]]; then
+    echo "[INFO] Compiling Annoy code for mac-x64..."
     make > /dev/null
-elif [[ "$platform" == 'linux' ]]; then
-    ./dockcross-linux-x64 bash -c "make > /dev/null"
+    mkdir $PROJECT_ROOT/target/classes/mac-x64
+    mv libannoy.dylib $PROJECT_ROOT/target/classes/mac-x64/
 fi
 
-cp libannoy.* $PROJECT_ROOT/target/classes/
+echo "[INFO] Compiling Annoy code for linux-x64 (make sure docker host is running)..."
+./dockcross-linux-x64 bash -c "make > /dev/null"
+mkdir $PROJECT_ROOT/target/classes/linux-x64
+mv libannoy.so $PROJECT_ROOT/target/classes/linux-x64
 
 # Cleanup
 rm -fr $TMP_DIR
