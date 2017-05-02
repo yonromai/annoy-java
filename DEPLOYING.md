@@ -41,5 +41,5 @@ Once you've got that in place, you should be able to do deploy new releases:
 ```
 # make and deploy a relase
 mvn -Prelease release:clean release:prepare
-mvn -Prelease release:perform
+mvn -Prelease release:perform -s settings.xml
 ```
