@@ -158,5 +158,11 @@
             </plugin>
         </plugins>
     </build>
-
+    <developers>
+        <developer>
+            <id>romain</id>
+            <email>romain@spotify.com</email>
+            <name>Romain Yon</name>
+        </developer>
+    </developers>
 </project>

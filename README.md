@@ -1,7 +1,7 @@
 # annoy-java
 
 [![Build Status](https://img.shields.io/circleci/project/github/yonromai/annoy-java/master.svg)](https://circleci.com/gh/yonromai/annoy-java)
-
+[![GitHub license](https://img.shields.io/github/license/yonromai/annoy-java.svg)](./LICENSE.txt)
 
 Java JNI wrapper around [annoy (C++)](https://github.com/spotify/annoy).
 
@@ -43,3 +43,9 @@ For more examples, take a look at the unit tests.
 ## TODO
 * Once tested in prod, move to spotify/annoy-java
 * Give a try to [faiss](https://github.com/facebookresearch/faiss)
+
+# License
+
+Copyright 2017 Spotify AB.
+
+Licensed under the Apache License, Version 2.0: http://www.apache.org/licenses/LICENSE-2.0
