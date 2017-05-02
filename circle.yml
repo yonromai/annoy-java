@@ -2,6 +2,6 @@ machine:
   services:
     - docker
 
-  test:
-    post:
-      - if mvn help:evaluate -Dexpression=project.version | grep '\[' | grep -q SNAPSHOT ; then mvn deploy -s settings.xml; fi
+test:
+  post:
+    - if ( [ $CIRCLE_BRANCH = "master" ] || [ mvn help:evaluate -Dexpression=project.version | grep '\[' | grep -q SNAPSHOT ] ); then mvn deploy -s settings.xml; fi
