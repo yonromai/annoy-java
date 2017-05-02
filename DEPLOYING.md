@@ -12,14 +12,21 @@ You need a Sonatype username and password.
 You can refer to `/foss/manual/blob/master/manual.md#releasing-java-projects-to-maven-central` on 
 Spotify's internal github on how to get them.
 
+You can set your environment variables:
+```bash
+export SONATYPE_USERNAME=foo
+export SONATYPE_PASSWORD=bar
+```
+(if you put them in your shell rc, don't check them in...)
+
 Then, you can add the following server config to your maven settings (`~/.m2/settings.xml`):
 ```xml
 <settings>
   <servers>
     <server>
       <id>ossrh</id>
-      <username>USERNAME</username>
-      <password>PASSWORD</password>
+      <username>${env.SONATYPE_USERNAME}</username>
+      <password>${env.SONATYPE_PASSWORD}</password>
     </server>
   </servers>
 </settings>
@@ -29,6 +36,11 @@ This should enable you to push a snapshot to maven central:
 # deploy snapshot version
 mvn clean deploy
 ```
+
+If you get:
+
+`[ERROR] Failed to execute goal org.apache.maven.plugins:maven-deploy-plugin:2.7:deploy [...] ReasonPhrase: Unauthorized`,
+ you've probably not set your env variables (or `settings.xml`) correctly. 
 
 ## Deploying releases to mvn central
 
