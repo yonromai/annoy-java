@@ -4,8 +4,10 @@ These instructions are based on the [instructions](http://central.sonatype.org/p
 for deploying to the Central Repository using [Maven](http://central.sonatype.org/pages/apache-maven.html).
 Note that this is for Spotify internal use only.
 
-You will need the following:
-- Sonatype username and password. 
+
+## Deploying Snapshots to mvn central
+
+You need a Sonatype username and password.
 
 You can refer to `/foss/manual/blob/master/manual.md#releasing-java-projects-to-maven-central` on 
 Spotify's internal github on how to get them.
@@ -22,14 +24,21 @@ Then, you can add the following server config to your maven settings (`~/.m2/set
   </servers>
 </settings>
 ```
-- [GPG set up on the machine you're deploying from](http://central.sonatype.org/pages/working-with-pgp-signatures.html)
-
-Once you've got that in place, you should be able to do deployment using the following commands:
-
+This should enable you to push a snapshot to maven central:
 ```
 # deploy snapshot version
 mvn clean deploy
+```
 
+## Deploying releases to mvn central
+
+
+You need GPG key set up on the machine you're deploying from.
+Getting a new key is easy, [here are some instructions](http://central.sonatype.org/pages/working-with-pgp-signatures.html).
+
+Once you've got that in place, you should be able to do deploy new releases:
+
+```
 # make and deploy a relase
 mvn -Prelease release:clean release:prepare
 mvn -Prelease release:perform
