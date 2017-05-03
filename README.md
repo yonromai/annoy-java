@@ -1,6 +1,7 @@
 # annoy-java
 
 [![Build Status](https://img.shields.io/circleci/project/github/yonromai/annoy-java/master.svg)](https://circleci.com/gh/yonromai/annoy-java)
+[![codecov.io](https://codecov.io/github/yonromai/annoy-java/coverage.svg?branch=master)](https://codecov.io/github/yonromai/annoy-java?branch=master)
 [![Maven Central](https://img.shields.io/maven-central/v/com.spotify/annoy-java.svg)](https://maven-badges.herokuapp.com/maven-central/com.spotify/annoy-java)
 [![GitHub license](https://img.shields.io/github/license/yonromai/annoy-java.svg)](./LICENSE.txt)
 
