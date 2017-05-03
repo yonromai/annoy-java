@@ -10,10 +10,9 @@ Java JNI wrapper around [annoy (C++)](https://github.com/spotify/annoy).
 <dependency>
     <groupId>com.spotify</groupId>
     <artifactId>annoy-java</artifactId>
-    <version>0.4.0-SNAPSHOT</version>
+    <version>0.4.1-SNAPSHOT</version>
 </dependency>
 ```
-At the moment, the jar is only published on Spotify's internal Artifactory.
 
 ## Getting started
 
