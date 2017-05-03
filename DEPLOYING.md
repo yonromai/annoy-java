@@ -7,6 +7,8 @@ Note that this is for Spotify internal use only.
 
 ## Deploying Snapshots to mvn central
 
+Snapshots are automatically published by `circle ci` on Sonatype for each new merge to the master branch. If for some reason, you want to manually publish a snapshot, here is what you need to do:
+
 You need a Sonatype username and password.
 
 You can refer to `/foss/manual/blob/master/manual.md#releasing-java-projects-to-maven-central` on 
@@ -28,15 +30,14 @@ mvn clean deploy -s settings.xml
 If you get:
 
 `[ERROR] Failed to execute goal org.apache.maven.plugins:maven-deploy-plugin:2.7:deploy [...] ReasonPhrase: Unauthorized`,
- you've probably not set your env variables (or `settings.xml`) correctly. 
+ you've probably not set your env variables correctly. 
 
 ## Deploying releases to mvn central
 
-
-You need GPG key set up on the machine you're deploying from.
+In addition to the Sonatype user & password, you need a GPG key set up on the machine you're deploying from.
 Getting a new key is easy, [here are some instructions](http://central.sonatype.org/pages/working-with-pgp-signatures.html).
 
-Once you've got that in place, you should be able to do deploy new releases:
+Once you've got that in place, you should be able to deploy a new releases:
 
 ```
 # make and deploy a relase
