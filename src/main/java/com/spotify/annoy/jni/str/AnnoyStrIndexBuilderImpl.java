@@ -23,8 +23,8 @@ package com.spotify.annoy.jni.str;
 import com.spotify.annoy.jni.base.Annoy;
 import com.spotify.annoy.jni.base.AnnoyIndex;
 import com.spotify.sparkey.Sparkey;
-import com.spotify.sparkey.SparkeyReader;
 import com.spotify.sparkey.SparkeyWriter;
+import com.spotify.sparkey.extra.ThreadLocalSparkeyReader;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
@@ -86,8 +86,8 @@ class AnnoyStrIndexBuilderImpl implements AnnoyStrIndexBuilder {
     AnnoyIndex annoyIndex = annoyBuilder.build(nbTrees).save(annoyPath.toString());
     
     return new AnnoyStrIndexImpl(annoyIndex,
-        Sparkey.open(getIdToStrIndexPath()),
-        Sparkey.open(getStrToIdIndexPath()));
+        new ThreadLocalSparkeyReader(getIdToStrIndexPath()),
+        new ThreadLocalSparkeyReader(getStrToIdIndexPath()));
   }
 
   // Loading logic
@@ -101,10 +101,10 @@ class AnnoyStrIndexBuilderImpl implements AnnoyStrIndexBuilder {
     AnnoyIndex annoyIndex = Annoy.loadIndex(annoyPath.toString(), dim, metric);
 
     Path idToStrIndexPath = Paths.get(dirName, idToStrIndexFilename);
-    SparkeyReader idToStrIndex = Sparkey.open(idToStrIndexPath.toFile());
+    ThreadLocalSparkeyReader idToStrIndex = new ThreadLocalSparkeyReader(idToStrIndexPath.toFile());
 
     Path strToIdIndexPath = Paths.get(dirName, strToIdIndexFilename);
-    SparkeyReader strToIdIndex = Sparkey.open(strToIdIndexPath.toFile());
+    ThreadLocalSparkeyReader strToIdIndex = new ThreadLocalSparkeyReader(strToIdIndexPath.toFile());
 
     return new AnnoyStrIndexImpl(annoyIndex, idToStrIndex, strToIdIndex);
   }
