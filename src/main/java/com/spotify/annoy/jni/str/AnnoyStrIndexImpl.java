@@ -21,7 +21,7 @@
 package com.spotify.annoy.jni.str;
 
 import com.spotify.annoy.jni.base.AnnoyIndex;
-import com.spotify.sparkey.SparkeyReader;
+import com.spotify.sparkey.extra.ThreadLocalSparkeyReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -29,12 +29,12 @@ import java.util.List;
 class AnnoyStrIndexImpl implements AnnoyStrIndex {
 
   private final AnnoyIndex annoyIndex;
-  private final SparkeyReader idToStrIndex;
-  private final SparkeyReader strToIdIndex;
+  private final ThreadLocalSparkeyReader idToStrIndex;
+  private final ThreadLocalSparkeyReader strToIdIndex;
 
   AnnoyStrIndexImpl(final AnnoyIndex annoyIndex,
-                    final SparkeyReader idToStrIndex,
-                    final SparkeyReader strToIdIndex) {
+                    final ThreadLocalSparkeyReader idToStrIndex,
+                    final ThreadLocalSparkeyReader strToIdIndex) {
     this.annoyIndex = annoyIndex;
     this.idToStrIndex = idToStrIndex;
     this.strToIdIndex = strToIdIndex;
