@@ -9,7 +9,7 @@
     </parent>
 
     <artifactId>annoy-java</artifactId>
-    <version>0.4.2-SNAPSHOT</version>
+    <version>0.4.2</version>
 
     <licenses>
         <license>
@@ -28,7 +28,7 @@
         <url>https://github.com/yonromai/annoy-java</url>
         <connection>scm:git:git@github.com:yonromai/annoy-java.git</connection>
         <developerConnection>scm:git:git@github.com:yonromai/annoy-java.git</developerConnection>
-        <tag>HEAD</tag>
+        <tag>v0.4.2</tag>
     </scm>
 
     <dependencies>
