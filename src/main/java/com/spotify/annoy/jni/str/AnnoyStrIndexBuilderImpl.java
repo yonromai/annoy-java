@@ -23,6 +23,7 @@ package com.spotify.annoy.jni.str;
 import com.spotify.annoy.jni.base.Annoy;
 import com.spotify.annoy.jni.base.AnnoyIndex;
 import com.spotify.sparkey.Sparkey;
+import com.spotify.sparkey.SparkeyReader;
 import com.spotify.sparkey.SparkeyWriter;
 import com.spotify.sparkey.extra.ThreadLocalSparkeyReader;
 import java.io.File;
@@ -101,10 +102,10 @@ class AnnoyStrIndexBuilderImpl implements AnnoyStrIndexBuilder {
     AnnoyIndex annoyIndex = Annoy.loadIndex(annoyPath.toString(), dim, metric);
 
     Path idToStrIndexPath = Paths.get(dirName, idToStrIndexFilename);
-    ThreadLocalSparkeyReader idToStrIndex = new ThreadLocalSparkeyReader(idToStrIndexPath.toFile());
+    SparkeyReader idToStrIndex = new ThreadLocalSparkeyReader(idToStrIndexPath.toFile());
 
     Path strToIdIndexPath = Paths.get(dirName, strToIdIndexFilename);
-    ThreadLocalSparkeyReader strToIdIndex = new ThreadLocalSparkeyReader(strToIdIndexPath.toFile());
+    SparkeyReader strToIdIndex = new ThreadLocalSparkeyReader(strToIdIndexPath.toFile());
 
     return new AnnoyStrIndexImpl(annoyIndex, idToStrIndex, strToIdIndex);
   }
